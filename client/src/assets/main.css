@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Styles used in general structure after this line */
+
+body {
+  @apply bg-light-grey text-black dark:bg-dark-grey dark:text-white;
+}
+
+main {
+  @apply mr-0 max-w-[800px] p-8 px-10 md:ml-[375px];
+}
+
+aside {
+  @apply fixed hidden h-screen w-[375px] select-none flex-col items-start justify-between overflow-y-auto whitespace-nowrap border-r-[1px] border-solid border-black border-opacity-5 py-8 md:flex dark:border-white dark:border-opacity-5;
+}
+
+aside > div {
+  @apply w-full;
+}
+
+aside > div > div {
+  @apply w-full px-8;
+}
+
+article {
+  @apply mb-10;
+}
+
+/* Styles used in markdown after this line */
+
+.divider {
+  @apply h-[1px] w-full bg-black bg-opacity-5 dark:bg-white dark:bg-opacity-5;
+}
+
+.subtext {
+  @apply mb-5 text-[1rem] text-black text-opacity-55 dark:text-white dark:text-opacity-55;
+}
+
+h1 {
+  @apply mb-1 text-7xl font-bold;
+}
+
+h2 {
+  @apply mb-1 text-6xl font-bold;
+}
+
+h3 {
+  @apply mb-1 text-5xl font-bold;
+}
+
+h4 {
+  @apply mb-1 text-4xl font-bold;
+}
+
+h5 {
+  @apply mb-1 text-3xl font-bold;
+}
+
+h6 {
+  @apply mb-1 text-2xl font-bold;
+}
+
+p {
+  @apply mb-5 text-base;
+}
+
+a {
+  @apply text-black text-opacity-55 underline dark:text-white dark:text-opacity-55;
+}
+
+/* Styles used in mulitple components after this line */
+
+.InputField {
+  @apply mb-4 mr-3 block h-[36px] w-full select-none rounded-xl border-[1px] border-solid border-black border-opacity-5 bg-light-grey px-5 py-2 text-left text-base font-semibold outline-none dark:border-white dark:border-opacity-5 dark:bg-dark-grey;
+}
+
+.AsideItem {
+  @apply mb-0 flex w-full select-none items-center justify-start gap-5 rounded-xl p-1 text-left text-small lg:w-max;
+}
+
+/* Stlyes used for component usage after this line */
+
+.button-row {
+  @apply flex flex-col items-start gap-5 sm:flex-row;
+}
+
+.error {
+  @apply select-none text-[14px] font-semibold text-red;
+}
+
+.success {
+  @apply select-none text-[14px] font-semibold text-green;
+}
