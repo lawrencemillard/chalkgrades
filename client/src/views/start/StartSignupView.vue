@@ -30,7 +30,7 @@
           password_confirm: '',
           access_code: ''
         },
-        requestURL: 'https://chalk.fortheinternet.xyz/api/logins/signups.json',
+        requestURL: '/api/logins/signups.json',
         error: '',
         success: false
       }
@@ -41,6 +41,7 @@
         this.success = !this.error
 
         if (this.success) {
+          localStorage.setItem('token', data.token)
           this.$router.push('/dashboard')
         }
       }
