@@ -14,16 +14,16 @@ import os
 
 load_dotenv()
 
-allowed_origin = os.getenv("allowed_origin")
-supabase_url = os.getenv("supabase_url")
-supabase_key = os.getenv("supabase_key")
-ably_key = os.getenv("ably_key")
+allowed_origin = os.getenv("ALLOWED_ORIGIN")
+supabase_url = os.getenv("SUPABASE_URL")
+supabase_key = os.getenv("SUPABASE_KEY")
+ably_key = os.getenv("ABLY_KEY")
 
-access_code_user = os.getenv("user_key")
-access_code_work = os.getenv("work_key")
+access_code_user = os.getenv("USER_CODE")
+access_code_work = os.getenv("WORK_CODE")
 
-password_salt = os.getenv("password_salt")
-password_salt_2 = os.getenv("password_salt_2")
+password_pepper_user = os.getenv("PASSWORD_PEPPER_USER")
+password_pepper_work = os.getenv("PASSWORD_PEPPER_WORK")
 
 supabase: Client = create_client(supabase_url, supabase_key)
 ably = AblyRest(ably_key)
@@ -134,8 +134,8 @@ def handle_logins():
     auth = response[0]['auth'] if response else None
     token = response[0]['token'] if response else None
 
-    salted_password = password_salt + password
-    sha256_hash = hashlib.sha256(salted_password.encode()).hexdigest()
+    peppered_password = password_pepper_user + password
+    sha256_hash = hashlib.sha256(peppered_password.encode()).hexdigest()
 
     conditions = [(sha256_hash != auth, 'bad-password', 'The password provided is incorrect.', '400')]
     for condition in conditions:
@@ -175,8 +175,8 @@ def handle_signups():
     for condition in conditions:
         if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]}), condition[3]
         
-    salted_password = password_salt + password
-    sha256_hash = hashlib.sha256(salted_password.encode()).hexdigest()
+    peppered_password = password_pepper_user + password
+    sha256_hash = hashlib.sha256(peppered_password.encode()).hexdigest()
 
     token = None
     while not token or supabase.table('users_data').select('username').eq('token', token).execute().data:
@@ -261,8 +261,8 @@ def handle_work_create():
         user_id = user_data.get("user_id")
 
     # Endpoint Logic
-    salted_password = password_salt_2 + password
-    sha256_hash = hashlib.sha256(salted_password.encode()).hexdigest()
+    peppered_password = password_pepper_work + password
+    sha256_hash = hashlib.sha256(peppered_password.encode()).hexdigest()
 
     existing_workspaces = supabase.table('work_data').select('urn').eq('work_admin_id', user_id).execute()
     existing_urns = [workspace['urn'].lower() for workspace in existing_workspaces.data] if existing_workspaces.data else []
@@ -312,8 +312,8 @@ async def handle_work_join(work_admin_username, urn):
         work_auth = work_data.get("work_auth")
 
     # Endpoint Logic
-    salted_password = password_salt_2 + password
-    sha256_hash = hashlib.sha256(salted_password.encode()).hexdigest()
+    peppered_password = password_pepper_work + password
+    sha256_hash = hashlib.sha256(peppered_password.encode()).hexdigest()
 
     conditions = [
         (sha256_hash != work_auth, 'bad-password', 'Your password is incorrect.', '400')

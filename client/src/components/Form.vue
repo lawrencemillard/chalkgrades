@@ -6,11 +6,19 @@
       requestURL: '',
       requestData: {}
     },
+    data() {
+      return {
+        requestLocation: import.meta.env.VITE_REQUEST_LOCATION
+      }
+    },
     emits: ['submitted'],
     methods: {
       async submitForm() {
         try {
-          const response = await axios.post(this.requestURL, this.requestData)
+          const response = await axios.post(
+            this.requestLocation + this.requestURL,
+            this.requestData
+          )
           console.log(response.data)
 
           this.$emit('submitted', response.data)

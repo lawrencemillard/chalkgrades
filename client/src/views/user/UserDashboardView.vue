@@ -30,7 +30,8 @@
     },
     data() {
       return {
-        requestURL: 'https://chalk.fortheinternet.xyz/api/logins/home.json',
+        requestLocation: import.meta.env.VITE_REQUEST_LOCATION,
+        requestURL: '/api/logins/home.json',
         loading: true,
         responseData: {
           username: '',
@@ -44,7 +45,10 @@
     methods: {
       async getData() {
         try {
-          const response = await axios.post(this.requestURL, this.requestData)
+          const response = await axios.post(
+            this.requestLocation + this.requestURL,
+            this.requestData
+          )
 
           this.loading = false
           this.responseData = response.data
