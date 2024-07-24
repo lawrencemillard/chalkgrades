@@ -1,41 +1,29 @@
-<script>
+<script setup>
+  import { ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
+
   // Phosphor Icons
   import { PhCaretRight, PhCaretDown, PhCheck } from '@phosphor-icons/vue'
 
   // UI elements
   import AsideButton from '@/components/AsideButton.vue'
 
-  export default {
-    components: {
-      // Phosphor Icons
-      PhCaretRight,
-      PhCaretDown,
-      PhCheck,
+  const { t, locale } = useI18n()
 
-      // UI elements
-      AsideButton
-    },
-    props: {
-      view: ''
-    },
-    data() {
-      return {
-        selected: false
-      }
-    },
-    methods: {
-      toggleSelected() {
-        this.selected = !this.selected
-      },
-      changeLocale(newLocale) {
-        console.log('Updating locale')
+  const props = defineProps(['view'])
+  const selected = ref(false)
 
-        this.$i18n.locale = newLocale
-        localStorage.setItem('locale', newLocale)
+  function changeLocale(newLocale) {
+    console.log('Updating locale')
 
-        document.title = this.$t('title.' + this.view)
-      }
-    }
+    locale.value = newLocale
+    localStorage.setItem('locale', newLocale)
+
+    document.title = t('title.' + props.view)
+  }
+
+  function toggleSelected() {
+    selected.value = !selected.value
   }
 </script>
 

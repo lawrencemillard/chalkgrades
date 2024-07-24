@@ -1,24 +1,21 @@
-<script>
+<script setup>
+  import { useRouter } from 'vue-router'
+  import { useUserStore } from '@/stores/userStore'
+
+  const store = useUserStore()
+
   // Phosphor Icons
   import { PhSignOut } from '@phosphor-icons/vue'
 
   // UI elements
   import AsideButton from '@/components/AsideButton.vue'
 
-  export default {
-    components: {
-      // Phosphor Icons
-      PhSignOut,
+  const router = useRouter()
 
-      // UI elements
-      AsideButton
-    },
-    methods: {
-      logout() {
-        localStorage.removeItem('token')
-        this.$router.push('/')
-      }
-    }
+  function logout() {
+    localStorage.removeItem('token')
+    store.$reset()
+    router.push('/')
   }
 </script>
 

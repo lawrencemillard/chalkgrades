@@ -1,4 +1,13 @@
-<script>
+<script setup>
+  import { ref, computed, onMounted } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { useI18n } from 'vue-i18n'
+
+  const router = useRouter()
+  const { t } = useI18n()
+
+  const formComponent = ref(null)
+
   // Layouts
   import LandingLeft from '@/layouts/StartLayout.vue'
 
@@ -6,116 +15,108 @@
   import Button from '@/components/Button.vue'
   import Form from '@/components/Form.vue'
 
-  export default {
-    components: {
-      // Layouts
-      LandingLeft,
+  onMounted(() => {
+    document.title = t('title.StartSignup')
 
-      // UI elements
-      Button,
-      Form
-    },
-    created() {
-      document.title = this.$t('title.Signup')
-
-      if (localStorage.getItem('token')) {
-        this.$router.push('/dashboard')
-      }
-    },
-    data() {
-      return {
-        requestData: {
-          username: '',
-          password: '',
-          password_confirm: '',
-          access_code: ''
-        },
-        requestURL: '/api/logins/signups.json',
-        error: '',
-        success: false
-      }
-    },
-    methods: {
-      handleResponse(data) {
-        this.error = data.error || ''
-        this.success = !this.error
-
-        if (this.success) {
-          localStorage.setItem('token', data.token)
-          this.$router.push('/dashboard')
-        }
-      }
+    if (localStorage.getItem('token')) {
+      router.push('/dashboard')
     }
+  })
+
+  const requestData = ref({
+    username: '',
+    password: '',
+    password_confirm: '',
+    access_code: ''
+  })
+
+  const requestURL = computed(() => {
+    return '/api/logins/signups.json'
+  })
+
+  const error = ref('')
+  const success = ref(false)
+
+  function handleResponse(data) {
+    error.value = data.error || ''
+    success.value = !error.value
+
+    if (success.value) {
+      router.push(
+        `/${requestData.work_admin_username}/${requestData.urn}/members`
+      )
+    }
+  }
+
+  function submitForm() {
+    formComponent.value.submitForm()
   }
 </script>
 
 <template>
-  <div id="wrapper">
-    <LandingLeft view="Signup" />
-    <main>
-      <article>
-        <h4>{{ $t('text.heading.signup-1') }}</h4>
-        <p class="subtext">
-          {{ $t('text.paragraph.signup-1') }}
+  <LandingLeft view="StartSignup" />
+  <main>
+    <article>
+      <h4>{{ $t('text.heading.signup-1') }}</h4>
+      <p class="subtext">
+        {{ $t('text.paragraph.signup-1') }}
+      </p>
+    </article>
+
+    <Form :requestURL :requestData ref="Form" @submitted="handleResponse">
+      <form>
+        <!-- Note that this is only here to prevent an error message. -->
+        <p class="mb-2 text-base font-bold">
+          {{ $t('inputs.text.username') }}
         </p>
-      </article>
 
-      <Form :requestURL :requestData ref="Form" @submitted="handleResponse">
-        <form>
-          <p class="mb-2 text-base font-bold">
-            {{ $t('inputs.text.username') }}
-          </p>
+        <input
+          v-model="requestData.username"
+          :placeholder="$t('inputs.placeholders.username')"
+          name="username"
+          type="password"
+        />
 
-          <input
-            v-model="requestData.username"
-            :placeholder="$t('inputs.placeholders.username')"
-            name="username"
-            class="InputField"
-          />
+        <p class="mb-2 text-base font-bold">
+          {{ $t('inputs.text.new-password') }}
+        </p>
 
-          <p class="mb-2 text-base font-bold">
-            {{ $t('inputs.text.new-password') }}
-          </p>
+        <input
+          v-model="requestData.password"
+          :placeholder="$t('inputs.placeholders.new-password')"
+          name="new_password"
+          type="password"
+        />
 
-          <input
-            v-model="requestData.password"
-            :placeholder="$t('inputs.placeholders.new-password')"
-            name="new_password"
-            class="InputField"
-          />
+        <p class="mb-2 text-base font-bold">
+          {{ $t('inputs.text.password-confirm') }}
+        </p>
 
-          <p class="mb-2 text-base font-bold">
-            {{ $t('inputs.text.password-confirm') }}
-          </p>
+        <input
+          v-model="requestData.password_confirm"
+          :placeholder="$t('inputs.placeholders.password-confirm')"
+          name="password_confirm"
+        />
 
-          <input
-            v-model="requestData.password_confirm"
-            :placeholder="$t('inputs.placeholders.password-confirm')"
-            name="password_confirm"
-            class="InputField"
-          />
+        <p class="mb-2 text-base font-bold">
+          {{ $t('inputs.text.access') }}
+        </p>
 
-          <p class="mb-2 text-base font-bold">
-            {{ $t('inputs.text.access') }}
-          </p>
+        <input
+          v-model="requestData.access_code"
+          :placeholder="$t('inputs.placeholders.access')"
+          name="access"
+        />
+      </form>
+      <!-- <form> should end before the error display and the button-row. -->
 
-          <input
-            v-model="requestData.access_code"
-            :placeholder="$t('inputs.placeholders.access')"
-            name="access"
-            class="InputField"
-          />
-        </form>
+      <p v-if="error" class="error">{{ $t(`errors.${error}`) }}</p>
 
-        <p v-if="error" class="error">{{ $t(`errors.${error}`) }}</p>
-        <p v-else-if="success" class="success">{{ $t('success') }}</p>
-
-        <div class="flex flex-col sm:flex-row">
-          <Button @click="this.$refs.Form.submitForm()" variant="highlighted">
-            {{ $t('button.submit') }}
-          </Button>
-        </div>
-      </Form>
-    </main>
-  </div>
+      <div class="button-row">
+        <Button @click="submitForm" variant="highlighted">
+          {{ $t('button.submit') }}
+        </Button>
+      </div>
+    </Form>
+  </main>
 </template>

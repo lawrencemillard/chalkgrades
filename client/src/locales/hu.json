@@ -27,10 +27,12 @@
     "already-started": "Már elkezdted ezt a dolgozatot!"
   },
   "title": {
-    "Home": "chalk - kezdőlap",
-    "Login": "chalk - bejelentkezés",
-    "Signup": "chalk - felhasználó létrehozása",
-    "Dashboard": "chalk - osztályok"
+    "StartHome": "chalk - kezdőlap",
+    "StartLogin": "chalk - bejelentkezés",
+    "StartSignup": "chalk - felhasználó létrehozása",
+    "UserDashboard": "chalk - osztályok",
+    "UserJoin": "chalk - belépés egy osztályba",
+    "UserCreate": "chalk - osztály létrehozása"
   },
   "button": {
     "home": "Kezdőlap",
@@ -47,7 +49,9 @@
     "logout": "Kijelentkezés",
     "exams": "Dolgozatok",
     "members": "Tagok",
-    "credits": "Impresszum"
+    "credits": "Impresszum",
+    "join": "Belépés egy osztályba",
+    "create": "Osztály létrehozása"
   },
   "inputs": {
     "text": {
@@ -55,14 +59,22 @@
       "password": "Jelszó",
       "new-password": "Új jelszó",
       "password-confirm": "Jelszó újra",
-      "access": "Hozzáférési kód"
+      "access": "Hozzáférési kód",
+      "work-admin-username": "Tanár neve",
+      "urn": "Erőforrás",
+      "display-name": "Megjelenített név"
     },
     "placeholders": {
       "username": "Példa Tanuló",
       "password": "alma-1000",
       "new-password": "körte-1000",
       "password-confirm": "körte-1000",
-      "access": "'home' vagy 'tanulo'"
+      "password-class": "eper-4000",
+      "access": "'home' vagy 'tanulo'",
+      "access-class": "'class' vagy 'work'",
+      "work-admin-username": "Példa Tanár",
+      "urn": "emelt-matematika",
+      "display-name": "12. emelt Matematika"
     }
   },
   "text": {
@@ -74,17 +86,18 @@
       "latest-updates": "Legújabb frissítések",
       "login-1": "Bejelentkezés",
       "signup-1": "Felhasználó létrehozása",
-      "dashboard-1": "Osztályok"
+      "dashboard-1": "Osztályok",
+      "join-1": "Belépés egy osztályba",
+      "create-1": "Osztály létrehozása"
     },
     "paragraph": {
       "landing-1": "A hagyományos oktatási eszközök szabad, nyílt forrású alternatívája.",
-      "landing-2": "Minden osztálynak saját otthona van. Tanulóként beléphetsz és valós időben nézheted a tagokat. A tanárok rendezhetik az osztályokat és kirúghatnak tagokat.",
-      "landing-3": "Nincs több kifogyott toll, gyűrött papír, olvashatatlan kézírás, vagy a név elfelejtése a bal felső sarokból 2 perccel az óra vége után.",
-      "landing-4": "Te vagy az adataid tulajdonában. Az összes kód, pluginok (hamarosan!), bukásra álló jegyek. Akármikor futtathatod a saját példányodat!",
       "latest-changes": "Az összes változtatás megtalálható a GitHub-on!",
       "login-1": "A felhasználói adataidat legtöbbször az iskoládtól vagy szolgáltatódtól kapod.",
       "signup-1": "A hozzáférési kódot legtöbbször a rendszergazda vagy szolgáltató biztosítja.",
       "dashboard-1": "Itt láthatóak az osztályaink legfontosabb adatai. Műveletek végzése lehetséges.",
+      "join-1": "Az osztályoknak saját jelszavaik vannak. Lehetséges, hogy nincs beállítva jelszó.",
+      "create-1": "A hozzáférési kódot legtöbbször a rendszergazda vagy szolgáltató biztosítja.",
       "policies": "A folytatással beleegyezel az <a href='https://fortheinternet.notion.site/Privacy-Cookie-Policy-e818b63c958649c2b2403278d15085f1?pvs=4'>Adatvédelmi nyilatkozatba</a>."
     }
   }

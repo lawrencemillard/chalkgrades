@@ -1,34 +1,23 @@
-<script>
+<script setup>
   // Phosphor Icons
   import { PhPalette } from '@phosphor-icons/vue'
 
   // UI elements
   import AsideButton from '@/components/AsideButton.vue'
 
-  export default {
-    components: {
-      // Phosphor Icons
-      PhPalette,
+  function toggleTheme() {
+    console.log('Toggling theme')
 
-      // UI elements
-      AsideButton
-    },
-    methods: {
-      toggleTheme() {
-        console.log('Toggling theme')
+    localStorage.theme = localStorage.theme === 'light' ? 'dark' : 'light'
 
-        localStorage.theme = localStorage.theme === 'light' ? 'dark' : 'light'
-
-        if (
-          localStorage.theme === 'dark' ||
-          (!('theme' in localStorage) &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches)
-        ) {
-          document.documentElement.classList.add('dark')
-        } else {
-          document.documentElement.classList.remove('dark')
-        }
-      }
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
     }
   }
 </script>

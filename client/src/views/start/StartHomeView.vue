@@ -1,44 +1,29 @@
-<script>
+<script setup>
+  import { onMounted } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { useI18n } from 'vue-i18n'
+
+  const router = useRouter()
+  const { t } = useI18n()
+
   // Layouts
   import LandingLeft from '@/layouts/StartLayout.vue'
-
-  // Phosphor Icons
-  import {
-    PhUsersThree,
-    PhPaperPlaneTilt,
-    PhGithubLogo
-  } from '@phosphor-icons/vue'
 
   // UI elements
   import Button from '@/components/Button.vue'
   import Divider from '@/components/Divider.vue'
 
-  export default {
-    components: {
-      // Layouts
-      LandingLeft,
+  onMounted(() => {
+    document.title = t('title.StartHome')
 
-      // Phosphor Icons
-      PhUsersThree,
-      PhPaperPlaneTilt,
-      PhGithubLogo,
-
-      // UI elements
-      Button,
-      Divider
-    },
-    created() {
-      document.title = this.$t('title.Home')
-
-      if (localStorage.getItem('token')) {
-        this.$router.push('/dashboard')
-      }
+    if (localStorage.getItem('token')) {
+      router.push('/dashboard')
     }
-  }
+  })
 </script>
 
 <template>
-  <LandingLeft view="Home" />
+  <LandingLeft view="StartHome" />
   <main>
     <article>
       <h4>{{ $t('text.heading.landing-1') }}</h4>
