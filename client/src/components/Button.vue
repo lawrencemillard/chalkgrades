@@ -1,22 +1,21 @@
-<script>
-  export default {
-    props: {
-      routePath: '',
-      variant: ''
-    },
-    methods: {
-      navigateToPage() {
-        if (this.routePath) {
-          this.$router.push(this.routePath)
-        }
-      }
-    },
-    computed: {
-      buttonClass() {
-        return 'Button-btn-' + this.variant
+<script setup>
+  import { computed } from 'vue'
+  import { useRouter } from 'vue-router'
+
+  const router = useRouter()
+  const props = defineProps(['routePath', 'variant'])
+
+  function navigateToPage() {
+    if (props.routePath) {
+      if (props.routePath.startsWith('https://')) {
+        window.location.href = props.routePath
+      } else {
+        router.push(props.routePath)
       }
     }
   }
+
+  const buttonClass = computed(() => 'Button-btn-' + props.variant)
 </script>
 
 <template>

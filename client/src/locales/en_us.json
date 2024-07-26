@@ -1,6 +1,7 @@
 {
   "success": "The operation completed successfully.",
   "loading": "Loading, please wait...",
+  "loading-pls-wait": "Did you know that a single bolt of lightning contains enough energy to toast 100,000 slices of bread?",
   "copied": "copied!",
   "languages": {
     "en_us": "English (US)",
@@ -27,10 +28,12 @@
     "already-started": "You already started this exam!"
   },
   "title": {
-    "Home": "chalk - homepage",
-    "Login": "chalk - login",
-    "Signup": "chalk - signup",
-    "Dashboard": "chalk - dashboard"
+    "StartHome": "chalk - homepage",
+    "StartLogin": "chalk - login",
+    "StartSignup": "chalk - signup",
+    "UserDashboard": "chalk - dashboard",
+    "UserJoin": "chalk - join",
+    "UserCreate": "chalk - create"
   },
   "button": {
     "home": "Homepage",
@@ -47,7 +50,10 @@
     "logout": "Log out",
     "exams": "Exams",
     "members": "Members",
-    "credits": "Credits"
+    "credits": "Credits",
+    "join": "Belépés egy osztályba",
+    "create": "Osztály létrehozása",
+    "settings": "Settings"
   },
   "inputs": {
     "text": {
@@ -55,14 +61,22 @@
       "password": "Password",
       "new-password": "New password",
       "password-confirm": "Repeat password",
-      "access": "Access code"
+      "access": "Access code",
+      "work-admin-username": "Teacher's username",
+      "urn": "Uniform Resource Name",
+      "display-name": "Display Name"
     },
     "placeholders": {
       "username": "Example Student",
       "password": "apple-1000",
       "new-password": "pear-1000",
       "password-confirm": "pear-1000",
-      "access": "'home' or 'student'"
+      "password-class": "strawberry-4000",
+      "access": "'home' or 'student'",
+      "access-class": "'class' or 'work'",
+      "work-admin-username": "Example Teacher",
+      "urn": "difficult-mathematics",
+      "display-name": "12th Difficult Mathematics"
     }
   },
   "text": {
@@ -74,17 +88,18 @@
       "latest-updates": "Latest updates",
       "login-1": "Log in to your account",
       "signup-1": "Create a new user account",
-      "dashboard-1": "Dashboard"
+      "dashboard-1": "Dashboard",
+      "join-1": "Join a workspace",
+      "create-1": "Create a new workspace"
     },
     "paragraph": {
       "landing-1": "This is the free and open-source alternative to traditional education tools.",
-      "landing-2": "Create workspaces for each class taught. As a student, you will be able to join in and wiew the members real-time. Teachers can manage workspaces and kick members.",
-      "landing-3": "No more running out of ink, torn pages, unreadable handwriting, or students forgetting to write their name on the top-left corner 2 minutes after everyone left.",
-      "landing-4": "You own your data. All the code, all the plugins (wip), all the failing grades. You can always host your own instance!",
       "latest-changes": "You can check out all the changes in our GitHub repo!",
       "login-1": "The details for your account are often provided by your school or server provider.",
       "signup-1": "The access code is usually provided by the administrator or service provider.",
       "dashboard-1": "This is where you see all your classes and perform actions on them.",
+      "join-1": "All workspaces have their own password. It's possible that there isn't a password set.",
+      "create-1": "The access code is usually provided by the administrator or service provider.",
       "policies": "By continuing, you accept our <a href='https://fortheinternet.notion.site/Privacy-Cookie-Policy-e818b63c958649c2b2403278d15085f1?pvs=4'>Privacy Policy</a>."
     }
   }

@@ -1,90 +1,44 @@
-<script>
-  import axios from 'axios'
+<script setup>
+  import { useUserStore } from '@/stores/userStore'
+  import { computed, onMounted } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { useI18n } from 'vue-i18n'
+
+  // Phosphor Icons
+  import { PhGraduationCap } from '@phosphor-icons/vue'
 
   // Layouts
-  import DashboardLeft from '@/layouts/UserLayout.vue'
+  import UserLayout from '@/layouts/UserLayout.vue'
 
   // UI elements
   import Button from '@/components/Button.vue'
   import Loading from '@/components/Loading.vue'
   import Divider from '@/components/Divider.vue'
 
-  export default {
-    components: {
-      // Layouts
-      DashboardLeft,
+  const store = useUserStore()
+  const { t } = useI18n()
+  const router = useRouter()
 
-      // UI elements
-      Button,
-      Loading,
-      Divider
-    },
-    created() {
-      document.title = this.$t('title.Dashboard')
-
-      if (!localStorage.getItem('token')) {
-        this.$router.push('/login')
-      }
-
-      this.getData()
-    },
-    data() {
-      return {
-        requestLocation: import.meta.env.VITE_REQUEST_LOCATION,
-        requestURL: '/api/logins/home.json',
-        loading: true,
-        responseData: {
-          username: '',
-          workspaces: {}
-        },
-        requestData: {
-          token: localStorage.getItem('token')
-        }
-      }
-    },
-    methods: {
-      async getData() {
-        try {
-          const response = await axios.post(
-            this.requestLocation + this.requestURL,
-            this.requestData
-          )
-
-          this.loading = false
-          this.responseData = response.data
-          console.log(this.responseData)
-        } catch (error) {
-          if (error.response.data.error == 'invalid-token') {
-            localStorage.removeItem('token')
-            this.$router.push('/login')
-          }
-
-          this.$emit('submitted', error.response.data)
-
-          if (error.response) {
-            console.table({
-              'Error code': error.response.data.error,
-              'Error message': error.response.data.message
-            })
-          } else {
-            console.log('Something happened.' + error)
-          }
-        }
-      },
-      navigateToWorkspace(work_admin_username, urn, path) {
-        this.$router.push(`${work_admin_username}/${urn}/${path}`)
-      }
-    }
+  function navigateToWorkspace(work_admin_username, urn, path) {
+    router.push(`${work_admin_username}/${urn}/${path}`)
   }
+
+  onMounted(() => {
+    store.getData()
+    document.title = t('title.UserDashboard')
+  })
+
+  const responseData = computed(() => store.responseData)
+  const loading = computed(() => store.loading)
 </script>
 
 <template>
-  <DashboardLeft view="Dashboard" :username="responseData.username" />
+  <UserLayout view="UserDashboard" :username="responseData.username" />
   <main>
     <article>
-      <h4>{{ $t('text.heading.dashboard-1') }}</h4>
+      <h4>{{ t('text.heading.dashboard-1') }}</h4>
       <p class="subtext">
-        {{ $t('text.paragraph.dashboard-1') }}
+        {{ t('text.paragraph.dashboard-1') }}
       </p>
     </article>
 
@@ -98,7 +52,7 @@
       v-else
     >
       <div
-        class="cursor-pointer"
+        class="flex-start flex cursor-pointer items-center justify-center gap-5"
         @click="
           navigateToWorkspace(
             workspace.work_admin_username,
@@ -107,17 +61,22 @@
           )
         "
       >
-        <p class="mb-0.5 text-[14px] font-bold">{{ workspace.display_name }}</p>
-        <p
-          class="mb-0 mr-3 inline text-[14px] text-black text-opacity-55 dark:text-white dark:text-opacity-55"
-        >
-          {{ workspace.work_admin_username }}
-        </p>
-        <p
-          class="mb-0 inline text-[14px] text-black text-opacity-55 dark:text-white dark:text-opacity-55"
-        >
-          {{ workspace.urn }}
-        </p>
+        <PhGraduationCap size="20px" weight="bold" />
+        <div>
+          <p class="mb-0.5 text-small font-bold">
+            {{ workspace.display_name }}
+          </p>
+          <p
+            class="mb-0 mr-3 inline text-small text-black text-opacity-55 dark:text-white dark:text-opacity-55"
+          >
+            {{ workspace.work_admin_username }}
+          </p>
+          <p
+            class="mb-0 inline text-small text-black text-opacity-55 dark:text-white dark:text-opacity-55"
+          >
+            {{ workspace.urn }}
+          </p>
+        </div>
       </div>
 
       <div class="hidden lg:block">
@@ -132,7 +91,7 @@
               )
             "
           >
-            {{ $t('button.exams') }}
+            {{ t('button.exams') }}
           </Button>
           <Button
             @click="
@@ -143,7 +102,7 @@
               )
             "
           >
-            {{ $t('button.members') }}
+            {{ t('button.members') }}
           </Button>
         </div>
       </div>

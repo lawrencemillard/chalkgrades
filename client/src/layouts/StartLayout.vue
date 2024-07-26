@@ -1,12 +1,11 @@
-<script>
+<script setup>
   // Phosphor Icons
   import {
     PhGithubLogo,
     PhCloudCheck,
     PhUser,
     PhHouse,
-    PhGraduationCap,
-    PhLock
+    PhGraduationCap
   } from '@phosphor-icons/vue'
 
   // UI elements
@@ -14,25 +13,7 @@
   import ChangeLocale from '@/components/ChangeLocale.vue'
   import ToggleTheme from '@/components/ToggleTheme.vue'
 
-  export default {
-    components: {
-      // Phosphor Icons
-      PhGithubLogo,
-      PhCloudCheck,
-      PhUser,
-      PhHouse,
-      PhGraduationCap,
-      PhLock,
-
-      // UI elements
-      AsideButton,
-      ChangeLocale,
-      ToggleTheme
-    },
-    props: {
-      view: ''
-    }
-  }
+  const props = defineProps(['view'])
 </script>
 
 <template>
@@ -40,19 +21,19 @@
     <div>
       <div>
         <AsideButton routePath="/">
-          <PhHouse v-if="view == 'Home'" weight="fill" size="17px" />
+          <PhHouse v-if="props.view == 'StartHome'" weight="fill" size="17px" />
           <PhHouse v-else weight="bold" size="17px" />
 
-          <div :class="{ 'font-bold': view == 'Home' }">
+          <div :class="{ 'font-bold': props.view == 'StartHome' }">
             {{ $t('button.home') }}
           </div>
         </AsideButton>
 
         <AsideButton routePath="/login">
-          <PhUser v-if="view == 'Login'" weight="fill" size="17px" />
+          <PhUser v-if="props.view == 'StartLogin'" weight="fill" size="17px" />
           <PhUser v-else weight="bold" size="17px" />
 
-          <div :class="{ 'font-bold': view == 'Login' }">
+          <div :class="{ 'font-bold': props.view == 'StartLogin' }">
             {{ $t('button.login') }}
           </div>
         </AsideButton>
@@ -81,7 +62,7 @@
     </div>
     <div>
       <div>
-        <ChangeLocale :view />
+        <ChangeLocale :view="props.view" />
         <ToggleTheme />
       </div>
     </div>

@@ -1,6 +1,6 @@
-<script>
+<script setup>
   // Phosphor Icons
-  import { PhHouse, PhUser, PhPlus } from '@phosphor-icons/vue'
+  import { PhHouse, PhArrowRight, PhPlus, PhUser } from '@phosphor-icons/vue'
 
   // UI elements
   import AsideButton from '@/components/AsideButton.vue'
@@ -9,36 +9,7 @@
   import ToggleTheme from '@/components/ToggleTheme.vue'
   import Logout from '@/components/Logout.vue'
 
-  export default {
-    components: {
-      // Phosphor Icons
-      PhHouse,
-      PhUser,
-      PhPlus,
-
-      // UI elements
-      AsideButton,
-      AsideInfo,
-      ChangeLocale,
-      ToggleTheme,
-      Logout
-    },
-    props: {
-      view: '',
-      username: ''
-    },
-    data() {
-      return {
-        copied: false
-      }
-    },
-    methods: {
-      logout() {
-        localStorage.removeItem('token')
-        this.$router.push('/')
-      }
-    }
-  }
+  const props = defineProps(['view', 'username'])
 </script>
 
 <template>
@@ -46,18 +17,44 @@
     <div>
       <div>
         <AsideButton routePath="/dashboard">
-          <PhHouse v-if="view == 'Dashboard'" weight="fill" size="17px" />
+          <PhHouse
+            v-if="props.view == 'UserDashboard'"
+            weight="fill"
+            size="17px"
+          />
           <PhHouse v-else weight="bold" size="17px" />
 
-          <div :class="{ 'font-bold': view == 'Dashboard' }">
+          <div :class="{ 'font-bold': props.view == 'UserDashboard' }">
             {{ $t('button.dashboard') }}
+          </div>
+        </AsideButton>
+
+        <AsideButton routePath="/dashboard/join">
+          <PhArrowRight
+            v-if="props.view == 'UserJoin'"
+            weight="bold"
+            size="17px"
+          />
+          <PhArrowRight v-else weight="bold" size="17px" />
+
+          <div :class="{ 'font-bold': props.view == 'UserJoin' }">
+            {{ $t('button.join') }}
+          </div>
+        </AsideButton>
+
+        <AsideButton routePath="/dashboard/create">
+          <PhPlus v-if="props.view == 'UserCreate'" weight="bold" size="17px" />
+          <PhPlus v-else weight="bold" size="17px" />
+
+          <div :class="{ 'font-bold': props.view == 'UserCreate' }">
+            {{ $t('button.create') }}
           </div>
         </AsideButton>
       </div>
     </div>
     <div>
       <div>
-        <ChangeLocale :view />
+        <ChangeLocale :view="props.view" />
         <ToggleTheme />
       </div>
       <div class="divider my-8" v-if="username"></div>

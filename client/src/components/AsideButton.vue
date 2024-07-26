@@ -1,17 +1,15 @@
-<script>
-  export default {
-    props: {
-      routePath: ''
-    },
-    methods: {
-      navigateToPage() {
-        if (this.routePath) {
-          if (this.routePath.startsWith('https://')) {
-            window.location.href = this.routePath
-          } else {
-            this.$router.push(this.routePath)
-          }
-        }
+<script setup>
+  import { useRouter } from 'vue-router'
+
+  const router = useRouter()
+  const props = defineProps(['routePath'])
+
+  function navigateToPage() {
+    if (props.routePath) {
+      if (props.routePath.startsWith('https://')) {
+        window.location.href = props.routePath
+      } else {
+        router.push(props.routePath)
       }
     }
   }

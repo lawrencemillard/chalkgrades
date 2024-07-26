@@ -1,39 +1,33 @@
-<script>
+<script setup>
+  import { ref } from 'vue'
   import axios from 'axios'
 
-  export default {
-    props: {
-      requestURL: '',
-      requestData: {}
-    },
-    data() {
-      return {
-        requestLocation: import.meta.env.VITE_REQUEST_LOCATION
-      }
-    },
-    emits: ['submitted'],
-    methods: {
-      async submitForm() {
-        try {
-          const response = await axios.post(
-            this.requestLocation + this.requestURL,
-            this.requestData
-          )
-          console.log(response.data)
+  const props = defineProps(['requestURL', 'requestData'])
+  const emit = defineEmits(['submitted'])
+  const requestLocation = import.meta.env.VITE_REQUEST_LOCATION
 
-          this.$emit('submitted', response.data)
-        } catch (error) {
-          if (error.response) {
-            console.table({
-              'Error code': error.response.data.error,
-              'Error message': error.response.data.message
-            })
+  defineExpose({ submitForm })
 
-            this.$emit('submitted', error.response.data)
-          } else {
-            console.log('Something happened.' + error)
-          }
-        }
+  const Form = ref(null)
+
+  async function submitForm() {
+    try {
+      const response = await axios.post(
+        requestLocation + props.requestURL,
+        props.requestData
+      )
+
+      emit('submitted', response.data)
+    } catch (error) {
+      if (error.response) {
+        console.table({
+          'Error code': error.response.data.error,
+          'Error message': error.response.data.message
+        })
+
+        emit('submitted', error.response.data)
+      } else {
+        console.log('Something happened. ' + error)
       }
     }
   }
