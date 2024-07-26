@@ -4,8 +4,11 @@
   import { useRouter } from 'vue-router'
   import { useI18n } from 'vue-i18n'
 
+  // Phosphor Icons
+  import { PhGraduationCap } from '@phosphor-icons/vue'
+
   // Layouts
-  import DashboardLeft from '@/layouts/UserLayout.vue'
+  import UserLayout from '@/layouts/UserLayout.vue'
 
   // UI elements
   import Button from '@/components/Button.vue'
@@ -30,7 +33,7 @@
 </script>
 
 <template>
-  <DashboardLeft view="UserDashboard" :username="responseData.username" />
+  <UserLayout view="UserDashboard" :username="responseData.username" />
   <main>
     <article>
       <h4>{{ t('text.heading.dashboard-1') }}</h4>
@@ -49,7 +52,7 @@
       v-else
     >
       <div
-        class="cursor-pointer"
+        class="flex-start flex cursor-pointer items-center justify-center gap-5"
         @click="
           navigateToWorkspace(
             workspace.work_admin_username,
@@ -58,17 +61,22 @@
           )
         "
       >
-        <p class="mb-0.5 text-[14px] font-bold">{{ workspace.display_name }}</p>
-        <p
-          class="mb-0 mr-3 inline text-[14px] text-black text-opacity-55 dark:text-white dark:text-opacity-55"
-        >
-          {{ workspace.work_admin_username }}
-        </p>
-        <p
-          class="mb-0 inline text-[14px] text-black text-opacity-55 dark:text-white dark:text-opacity-55"
-        >
-          {{ workspace.urn }}
-        </p>
+        <PhGraduationCap size="20px" weight="bold" />
+        <div>
+          <p class="mb-0.5 text-small font-bold">
+            {{ workspace.display_name }}
+          </p>
+          <p
+            class="mb-0 mr-3 inline text-small text-black text-opacity-55 dark:text-white dark:text-opacity-55"
+          >
+            {{ workspace.work_admin_username }}
+          </p>
+          <p
+            class="mb-0 inline text-small text-black text-opacity-55 dark:text-white dark:text-opacity-55"
+          >
+            {{ workspace.urn }}
+          </p>
+        </div>
       </div>
 
       <div class="hidden lg:block">

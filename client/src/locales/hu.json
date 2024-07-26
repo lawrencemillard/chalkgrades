@@ -1,6 +1,7 @@
 {
   "success": "A művelet sikeresen befejeződött.",
   "loading": "Betöltés, kérem várjon...",
+  "loading-pls-wait": "Tudtad, hogy egyetlen villámcsapás elegendő energiát tartalmaz ahhoz, hogy 100 000 szelet kenyeret megpirítson?",
   "copied": "másolva!",
   "languages": {
     "en_us": "English (US)",
@@ -51,7 +52,8 @@
     "members": "Tagok",
     "credits": "Impresszum",
     "join": "Belépés egy osztályba",
-    "create": "Osztály létrehozása"
+    "create": "Osztály létrehozása",
+    "settings": "Beállítások"
   },
   "inputs": {
     "text": {

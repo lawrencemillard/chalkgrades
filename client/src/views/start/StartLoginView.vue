@@ -9,7 +9,7 @@
   const formComponent = ref(null)
 
   // Layouts
-  import LandingLeft from '@/layouts/StartLayout.vue'
+  import StartLayout from '@/layouts/StartLayout.vue'
 
   // UI elements
   import Button from '@/components/Button.vue'
@@ -51,7 +51,7 @@
 </script>
 
 <template>
-  <LandingLeft view="StartLogin" />
+  <StartLayout view="StartLogin" />
   <main>
     <article>
       <h4>{{ $t('text.heading.login-1') }}</h4>

@@ -7,7 +7,7 @@
   const { t } = useI18n()
 
   // Layouts
-  import LandingLeft from '@/layouts/StartLayout.vue'
+  import StartLayout from '@/layouts/StartLayout.vue'
 
   // UI elements
   import Button from '@/components/Button.vue'
@@ -23,7 +23,7 @@
 </script>
 
 <template>
-  <LandingLeft view="StartHome" />
+  <StartLayout view="StartHome" />
   <main>
     <article>
       <h4>{{ $t('text.heading.landing-1') }}</h4>

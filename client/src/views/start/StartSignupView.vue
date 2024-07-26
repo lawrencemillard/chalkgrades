@@ -9,7 +9,7 @@
   const formComponent = ref(null)
 
   // Layouts
-  import LandingLeft from '@/layouts/StartLayout.vue'
+  import StartLayout from '@/layouts/StartLayout.vue'
 
   // UI elements
   import Button from '@/components/Button.vue'
@@ -54,7 +54,7 @@
 </script>
 
 <template>
-  <LandingLeft view="StartSignup" />
+  <StartLayout view="StartSignup" />
   <main>
     <article>
       <h4>{{ $t('text.heading.signup-1') }}</h4>
@@ -74,7 +74,6 @@
           v-model="requestData.username"
           :placeholder="$t('inputs.placeholders.username')"
           name="username"
-          type="password"
         />
 
         <p class="mb-2 text-base font-bold">
@@ -96,6 +95,7 @@
           v-model="requestData.password_confirm"
           :placeholder="$t('inputs.placeholders.password-confirm')"
           name="password_confirm"
+          type="password"
         />
 
         <p class="mb-2 text-base font-bold">

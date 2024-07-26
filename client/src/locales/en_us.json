@@ -1,6 +1,7 @@
 {
   "success": "The operation completed successfully.",
   "loading": "Loading, please wait...",
+  "loading-pls-wait": "Did you know that a single bolt of lightning contains enough energy to toast 100,000 slices of bread?",
   "copied": "copied!",
   "languages": {
     "en_us": "English (US)",
@@ -51,7 +52,8 @@
     "members": "Members",
     "credits": "Credits",
     "join": "Belépés egy osztályba",
-    "create": "Osztály létrehozása"
+    "create": "Osztály létrehozása",
+    "settings": "Settings"
   },
   "inputs": {
     "text": {

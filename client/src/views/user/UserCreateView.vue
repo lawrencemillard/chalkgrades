@@ -11,7 +11,7 @@
   const formComponent = ref(null)
 
   // Layouts
-  import DashboardLeft from '@/layouts/UserLayout.vue'
+  import UserLayout from '@/layouts/UserLayout.vue'
 
   // UI elements
   import Button from '@/components/Button.vue'
@@ -56,7 +56,7 @@
 </script>
 
 <template>
-  <DashboardLeft view="UserCreate" :username="responseData.username" />
+  <UserLayout view="UserCreate" :username="responseData.username" />
   <main>
     <article>
       <h4>{{ $t('text.heading.create-1') }}</h4>
