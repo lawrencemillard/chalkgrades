@@ -121,8 +121,8 @@ def handle_logins():
     username = data.get('username')
     password = data.get('password')
 
-    for value in required_values:
-        if data.get(value) is None:
+    for required_value in required_values:
+        if data.get(required_value) is None:
             return jsonify({'error': 'syntax-fatal-formatting', 'message': 'Your request is malformed, meaning one of the values are missing. This error should not occur naturally using the website, please open a GitHub issue. This error should not occur naturally using the website, please open a GitHub issue.'}), 400
 
     response = supabase.table('users_data').select('auth, token').eq('username', username).execute().data
@@ -155,8 +155,8 @@ def handle_signups():
     password_confirm = data.get('password_confirm')
     access_code = data.get('access_code')
 
-    for value in required_values:
-        if data.get(value) is None:
+    for required_value in required_values:
+        if data.get(required_value) is None:
             return jsonify({'error': 'syntax-fatal-formatting', 'message': 'Your request is malformed, meaning one of the values are missing. This error should not occur naturally using the website, please open a GitHub issue.'}), 400
         
     response = supabase.table('users_data').select('username').eq('username', username).execute().data
@@ -196,8 +196,8 @@ def handle_home():
 
     token = data.get('token')
     
-    for value in required_values:
-        if data.get(value) is None:
+    for required_value in required_values:
+        if data.get(required_value) is None:
             return jsonify({'error': 'syntax-fatal-formatting', 'message': 'Your request is malformed, meaning one of the values are missing. This error should not occur naturally using the website, please open a GitHub issue.'}), 400
 
     # Authentication
@@ -245,8 +245,8 @@ def handle_work_create():
     display = data.get('display')
     access_code = data.get('access_code')
 
-    for value in required_values:
-        if data.get(value) is None:
+    for required_value in required_values:
+        if data.get(required_value) is None:
             return jsonify({'error': 'syntax-fatal-formatting', 'message': 'Your request is malformed, meaning one of the values are missing. This error should not occur naturally using the website, please open a GitHub issue.'}), 400
 
     # Authentication
@@ -293,8 +293,8 @@ async def handle_work_join(work_admin_username, urn):
     password = data.get('password')
     token = data.get('token')
 
-    for value in required_values:
-        if data.get(value) is None:
+    for required_value in required_values:
+        if data.get(required_value) is None:
             return jsonify({'error': 'syntax-fatal-formatting', 'message': 'Your request is malformed, meaning one of the values are missing. This error should not occur naturally using the website, please open a GitHub issue.'}), 400
 
     # Authentication
@@ -364,8 +364,8 @@ def handle_work_home(work_admin_username, urn):
 
     token = data.get('token')
 
-    for value in required_values:
-        if data.get(value) is None:
+    for required_value in required_values:
+        if data.get(required_value) is None:
             return jsonify({'error': 'syntax-fatal-formatting', 'message': 'Your request is malformed, meaning one of the values are missing. This error should not occur naturally using the website, please open a GitHub issue.'}), 400
 
     # Authentication
@@ -452,8 +452,8 @@ async def handle_work_ably_token(work_admin_username, urn):
 
     token = data.get('token')
 
-    for value in required_values:
-        if data.get(value) is None:
+    for required_value in required_values:
+        if data.get(required_value) is None:
             return jsonify({'error': 'syntax-fatal-formatting', 'message': 'Your request is malformed, meaning one of the values are missing. This error should not occur naturally using the website, please open a GitHub issue.'}), 400
 
     # Authentication
@@ -495,8 +495,8 @@ async def handle_work_settings(work_admin_username, urn):
     value = data.get('value')
     action = data.get('action')
 
-    for value in required_values:
-        if data.get(value) is None:
+    for required_value in required_values:
+        if data.get(required_value) is None:
             return jsonify({'error': 'syntax-fatal-formatting', 'message': 'Your request is malformed, meaning one of the values are missing. This error should not occur naturally using the website, please open a GitHub issue.'}), 400
 
     # Authentication
@@ -533,6 +533,12 @@ async def handle_work_settings(work_admin_username, urn):
             if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]})
         
         supabase.table('work_data').update({'display': value}).eq('work_id', work_id).execute()
+
+        channel = ably.channels.get(realtime_access)
+        channel_message = {
+            "display": value
+        }
+        await channel.publish('display', channel_message)
         return jsonify({'success': True})
     
     elif action == "urn":
@@ -549,6 +555,12 @@ async def handle_work_settings(work_admin_username, urn):
             if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]})
 
         supabase.table('work_data').update({'urn': value}).eq('work_id', work_id).execute()
+        
+        channel = ably.channels.get(realtime_access)
+        channel_message = {
+            "urn": value
+        }
+        await channel.publish('urn', channel_message)
         return jsonify({'success': True})
     
     elif action == "leave": # member_leave
@@ -579,7 +591,7 @@ async def handle_work_settings(work_admin_username, urn):
         for exam in exams_data:
             exam_id = exam.get('exam_id')
             supabase.table('sessions_data').delete().eq('exam_id', exam_id).eq('user_id', value).execute()
-        
+
         supabase.table('members_data').delete().eq('work_id', work_id).eq('member_id', value).execute()
 
         channel = ably.channels.get(realtime_access)
@@ -591,18 +603,18 @@ async def handle_work_settings(work_admin_username, urn):
         return jsonify({'success': True})
     
     else:
-        return jsonify({'error': 'You entered something incorrectly.'}), 400
+        return jsonify({'error': 'invalid-option', 'message': 'You did not select an option, or the selected option is not available.'}), 400
 
 @app.route('/api/exams/<string:work_admin_username>/<string:urn>/create.json', methods=['POST'])
-def handle_exams_create(work_admin_username, urn):
+async def handle_exams_create(work_admin_username, urn):
     data = request.get_json()
     required_values = ['token', 'exam_name']
 
     token = data.get("token")
     exam_name = data.get("exam_name")
 
-    for value in required_values:
-        if data.get(value) is None:
+    for required_value in required_values:
+        if data.get(required_value) is None:
             return jsonify({'error': 'syntax-fatal-formatting', 'message': 'Your request is malformed, meaning one of the values are missing. This error should not occur naturally using the website, please open a GitHub issue.'}), 400
 
     # Authentication
@@ -618,7 +630,17 @@ def handle_exams_create(work_admin_username, urn):
     
     # Endpoint Logic
     supabase.table('exams_data').insert({"display_name": exam_name, "work_id": work_id, "visibility": "private"}).execute()
-    return jsonify({'success': True})
+
+    response = supabase.table('exams_data').select("exam_id").eq("work_id", work_id).execute().data
+    latest_exam_id = max(item['exam_id'] for item in response)
+
+    exam_details = {
+        "display_name": exam_name,
+        "exam_id": latest_exam_id,
+        "visibility": "private"
+    }
+
+    return jsonify({'success': True, 'exam': exam_details})
 
 @app.route('/api/exams/<string:work_admin_username>/<string:urn>/settings.json', methods=['POST'])
 def handle_exam_settings(work_admin_username, urn):
@@ -629,8 +651,8 @@ def handle_exam_settings(work_admin_username, urn):
     exam_id = data.get('value')
     action = data.get('action')
 
-    for value in required_values:
-        if data.get(value) is None:
+    for required_value in required_values:
+        if data.get(required_value) is None:
             return jsonify({'error': 'syntax-fatal-formatting', 'message': 'Your request is malformed, meaning one of the values are missing. This error should not occur naturally using the website, please open a GitHub issue.'}), 400
 
     # Authentication
@@ -679,7 +701,7 @@ def handle_exam_settings(work_admin_username, urn):
 
         return jsonify({'success': True})
     else:
-        return jsonify({'error': 'You entered something incorrectly.'}), 400
+        return jsonify({'error': 'invalid-option', 'message': 'You did not select an option, or the selected option is not available.'}), 400
 
 @app.route('/api/exams/<string:work_admin_username>/<string:urn>/build.json', methods=['POST'])
 def handle_exam_build(work_admin_username, urn):
@@ -691,8 +713,8 @@ def handle_exam_build(work_admin_username, urn):
     action = data.get('action')
     questions = data.get('questions', [])
 
-    for value in required_values:
-        if data.get(value) is None:
+    for required_value in required_values:
+        if data.get(required_value) is None:
             return jsonify({'error': 'syntax-fatal-formatting', 'message': 'Your request is malformed, meaning one of the values are missing. This error should not occur naturally using the website, please open a GitHub issue.'}), 400
 
     # Authentication
@@ -768,8 +790,8 @@ def handle_exam_home(work_admin_username, urn):
     token = data.get('token')
     exam_id = data.get('value')
 
-    for value in required_values:
-        if data.get(value) is None:
+    for required_value in required_values:
+        if data.get(required_value) is None:
             return jsonify({'error': 'syntax-fatal-formatting', 'message': 'Your request is malformed, meaning one of the values are missing. This error should not occur naturally using the website, please open a GitHub issue.'}), 400
 
     # Authentication
@@ -869,8 +891,8 @@ def handle_exam_start(work_admin_username, urn):
     token = data.get('token')
     exam_id = data.get('value')
 
-    for value in required_values:
-        if data.get(value) is None:
+    for required_value in required_values:
+        if data.get(required_value) is None:
             return jsonify({'error': 'syntax-fatal-formatting', 'message': 'Your request is malformed, meaning one of the values are missing. This error should not occur naturally using the website, please open a GitHub issue.'}), 400
 
     # Authentication

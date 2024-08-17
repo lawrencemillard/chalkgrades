@@ -27,7 +27,7 @@ const i18n = createI18n({
 
 // tailwind darkmode stuff
 if (
-  localStorage.theme === 'dark' ||
+  localStorage.theme == 'dark' ||
   (!('theme' in localStorage) &&
     window.matchMedia('(prefers-color-scheme: dark)').matches)
 ) {
@@ -38,7 +38,8 @@ if (
 
 // warn user
 console.log(
-  'WARNING: Pasting code into this console might compromise your data, make the application unusable, or create a hacker-topia in your browser!'
+  '%cWARNING: Pasting code into this console might compromise your data, make the application unusable, or create a hacker-topia in your browser!',
+  'color: yellow; font-weight: bold;'
 )
 
 const app = createApp(App)

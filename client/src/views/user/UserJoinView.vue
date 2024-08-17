@@ -1,25 +1,21 @@
 <script setup>
-  import { useUserStore } from '@/stores/userStore'
   import { ref, computed, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useI18n } from 'vue-i18n'
-
-  const store = useUserStore()
-  const router = useRouter()
-  const { t } = useI18n()
-
-  const formComponent = ref(null)
-
-  // Layouts
-  import UserLayout from '@/layouts/UserLayout.vue'
 
   // UI elements
   import Button from '@/components/Button.vue'
   import Form from '@/components/Form.vue'
 
+  const router = useRouter()
+  const { t } = useI18n()
+
+  const formComponent = ref(null)
+
+  const props = defineProps(['loading', 'responseData'])
+
   onMounted(() => {
-    store.getData()
-    document.title = t('title.UserDashboard')
+    document.title = t('title.join')
   })
 
   const requestData = ref({
@@ -45,7 +41,7 @@
 
     if (success.value) {
       router.push(
-        `/${requestURLData.value.work_admin_username}/${requestURLData.value.urn}/members`
+        `/work/${requestURLData.value.work_admin_username}/${requestURLData.value.urn}/members`
       )
     }
   }
@@ -53,12 +49,9 @@
   function submitForm() {
     formComponent.value.submitForm()
   }
-
-  const responseData = computed(() => store.responseData)
 </script>
 
 <template>
-  <UserLayout view="UserJoin" :username="responseData.username" />
   <main>
     <article>
       <h4>{{ $t('text.heading.join-1') }}</h4>
@@ -86,6 +79,7 @@
               :placeholder="$t('inputs.placeholders.work-admin-username')"
               autocomplete="on"
               name="work_admin_username"
+              type="text"
             />
           </div>
           <div class="w-full xl:w-1/2">
@@ -98,6 +92,7 @@
               :placeholder="$t('inputs.placeholders.urn')"
               autocomplete="on"
               name="urn"
+              type="text"
             />
           </div>
         </div>
@@ -111,6 +106,7 @@
           :placeholder="$t('inputs.placeholders.password-class')"
           autocomplete="on"
           name="password"
+          type="text"
         />
       </form>
       <!-- <form> should end before the error display and the button-row. -->

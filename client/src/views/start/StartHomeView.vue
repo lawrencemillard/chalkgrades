@@ -6,15 +6,12 @@
   const router = useRouter()
   const { t } = useI18n()
 
-  // Layouts
-  import StartLayout from '@/layouts/StartLayout.vue'
-
   // UI elements
   import Button from '@/components/Button.vue'
   import Divider from '@/components/Divider.vue'
 
   onMounted(() => {
-    document.title = t('title.StartHome')
+    document.title = t('title.home')
 
     if (localStorage.getItem('token')) {
       router.push('/dashboard')
@@ -23,7 +20,6 @@
 </script>
 
 <template>
-  <StartLayout view="StartHome" />
   <main>
     <article>
       <h4>{{ $t('text.heading.landing-1') }}</h4>
