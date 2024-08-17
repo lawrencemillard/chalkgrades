@@ -606,7 +606,7 @@ async def handle_work_settings(work_admin_username, urn):
         return jsonify({'error': 'invalid-option', 'message': 'You did not select an option, or the selected option is not available.'}), 400
 
 @app.route('/api/exams/<string:work_admin_username>/<string:urn>/create.json', methods=['POST'])
-async def handle_exams_create(work_admin_username, urn):
+def handle_exams_create(work_admin_username, urn):
     data = request.get_json()
     required_values = ['token', 'exam_name']
 
