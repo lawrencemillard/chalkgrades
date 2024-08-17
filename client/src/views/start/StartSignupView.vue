@@ -13,7 +13,7 @@
   import Form from '@/components/Form.vue'
 
   onMounted(() => {
-    document.title = t('title.StartSignup')
+    document.title = t('title.signup')
 
     if (localStorage.getItem('token')) {
       router.push('/dashboard')
