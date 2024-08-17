@@ -29,8 +29,8 @@
 
 <template>
   <AsideButton @click="toggleSelected()">
-    <PhCaretRight weight="bold" size="17px" v-if="!selected" />
-    <PhCaretDown weight="bold" size="17px" v-else />
+    <PhCaretRight size="17px" v-if="!selected" />
+    <PhCaretDown size="17px" v-else />
 
     {{ $t('button.changelang') }}
   </AsideButton>
@@ -41,7 +41,7 @@
     :key="locale"
     @click="changeLocale(locale)"
   >
-    <PhCheck weight="bold" size="17px" v-if="$i18n.locale == locale" />
+    <PhCheck size="17px" v-if="$i18n.locale == locale" />
     <div class="h-[17px] w-[17px]" v-else></div>
 
     <div :class="{ 'font-bold': $i18n.locale == locale }">

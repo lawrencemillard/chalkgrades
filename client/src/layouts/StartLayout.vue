@@ -21,19 +21,19 @@
     <div>
       <div>
         <AsideButton routePath="/">
-          <PhHouse v-if="props.view == 'StartHome'" weight="fill" size="17px" />
-          <PhHouse v-else weight="bold" size="17px" />
+          <PhHouse v-if="props.view == 'home'" weight="fill" size="17px" />
+          <PhHouse v-else size="17px" />
 
-          <div :class="{ 'font-bold': props.view == 'StartHome' }">
+          <div :class="{ 'font-bold': props.view == 'home' }">
             {{ $t('button.home') }}
           </div>
         </AsideButton>
 
         <AsideButton routePath="/login">
-          <PhUser v-if="props.view == 'StartLogin'" weight="fill" size="17px" />
-          <PhUser v-else weight="bold" size="17px" />
+          <PhUser v-if="props.view == 'login'" weight="fill" size="17px" />
+          <PhUser v-else size="17px" />
 
-          <div :class="{ 'font-bold': props.view == 'StartLogin' }">
+          <div :class="{ 'font-bold': props.view == 'login' }">
             {{ $t('button.login') }}
           </div>
         </AsideButton>
@@ -41,21 +41,21 @@
       <div class="divider my-8"></div>
       <div>
         <AsideButton routePath="https://github.com/fortheinternet/chalkgrades">
-          <PhGithubLogo weight="bold" size="17px" />
+          <PhGithubLogo size="17px" />
           {{ $t('button.github') }}
         </AsideButton>
 
         <AsideButton
           routePath="https://fortheinternet.notion.site/API-Documentation-WIP-be3e672768d243aa855209b4f6e475bb?pvs=4"
         >
-          <PhCloudCheck weight="bold" size="17px" />
+          <PhCloudCheck size="17px" />
           {{ $t('button.api-docs') }}
         </AsideButton>
 
         <AsideButton
           routePath="https://fortheinternet.notion.site/Credits-19a5c234927c47179cb89e00a8149201?pvs=4"
         >
-          <PhGraduationCap weight="bold" size="17px" />
+          <PhGraduationCap size="17px" />
           {{ $t('button.credits') }}
         </AsideButton>
       </div>

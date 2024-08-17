@@ -8,9 +8,6 @@
 
   const formComponent = ref(null)
 
-  // Layouts
-  import StartLayout from '@/layouts/StartLayout.vue'
-
   // UI elements
   import Button from '@/components/Button.vue'
   import Form from '@/components/Form.vue'
@@ -42,9 +39,8 @@
     success.value = !error.value
 
     if (success.value) {
-      router.push(
-        `/${requestData.work_admin_username}/${requestData.urn}/members`
-      )
+      localStorage.setItem('token', data.token)
+      router.push(`/dashboard`)
     }
   }
 
@@ -54,7 +50,6 @@
 </script>
 
 <template>
-  <StartLayout view="StartSignup" />
   <main>
     <article>
       <h4>{{ $t('text.heading.signup-1') }}</h4>
@@ -63,7 +58,12 @@
       </p>
     </article>
 
-    <Form :requestURL :requestData ref="Form" @submitted="handleResponse">
+    <Form
+      :requestURL
+      :requestData
+      ref="formComponent"
+      @submitted="handleResponse"
+    >
       <form>
         <!-- Note that this is only here to prevent an error message. -->
         <p class="mb-2 text-base font-bold">
@@ -74,6 +74,7 @@
           v-model="requestData.username"
           :placeholder="$t('inputs.placeholders.username')"
           name="username"
+          type="text"
         />
 
         <p class="mb-2 text-base font-bold">
@@ -106,6 +107,7 @@
           v-model="requestData.access_code"
           :placeholder="$t('inputs.placeholders.access')"
           name="access"
+          type="text"
         />
       </form>
       <!-- <form> should end before the error display and the button-row. -->

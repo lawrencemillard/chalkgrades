@@ -2,7 +2,7 @@
   "success": "The operation completed successfully.",
   "loading": "Loading, please wait...",
   "loading-pls-wait": "Did you know that a single bolt of lightning contains enough energy to toast 100,000 slices of bread?",
-  "copied": "copied!",
+  "back": "Back",
   "languages": {
     "en_us": "English (US)",
     "hu": "Magyar"
@@ -28,12 +28,16 @@
     "already-started": "You already started this exam!"
   },
   "title": {
-    "StartHome": "chalk - homepage",
-    "StartLogin": "chalk - login",
-    "StartSignup": "chalk - signup",
-    "UserDashboard": "chalk - dashboard",
-    "UserJoin": "chalk - join",
-    "UserCreate": "chalk - create"
+    "home": "chalk - homepage",
+    "login": "chalk - login",
+    "signup": "chalk - signup",
+    "dashboard": "chalk - dashboard",
+    "join": "chalk - join",
+    "user-create": "chalk - create new workspace",
+    "members": "chalk - members",
+    "exams": "chalk - exams",
+    "work-settings": "chalk - settings",
+    "work-create": "chalk - create new exam"
   },
   "button": {
     "home": "Homepage",
@@ -51,9 +55,14 @@
     "exams": "Exams",
     "members": "Members",
     "credits": "Credits",
-    "join": "Belépés egy osztályba",
-    "create": "Osztály létrehozása",
-    "settings": "Settings"
+    "join": "Join a workspace",
+    "create": "Create a workspace",
+    "settings": "Settings",
+    "create-exam": "Create an exam",
+    "leave": "Leave workspace",
+    "remove-member": "Remove member",
+    "start-exam": "Dolgozat indítása",
+    "sessions": "Másolatok"
   },
   "inputs": {
     "text": {
@@ -64,7 +73,9 @@
       "access": "Access code",
       "work-admin-username": "Teacher's username",
       "urn": "Uniform Resource Name",
-      "display-name": "Display Name"
+      "display-name": "Display Name",
+      "exam-name": "Exam Name",
+      "new-value": "New value"
     },
     "placeholders": {
       "username": "Example Student",
@@ -75,22 +86,24 @@
       "access": "'home' or 'student'",
       "access-class": "'class' or 'work'",
       "work-admin-username": "Example Teacher",
-      "urn": "difficult-mathematics",
-      "display-name": "12th Difficult Mathematics"
+      "urn": "12-difficult-mathematics",
+      "display-name": "12th Difficult Mathematics",
+      "exam-name": "chapter VI. Emacs Basics",
+      "work-new-value-1": "7th-seagull",
+      "work-new-value-2": "Seagull observations centre"
     }
   },
   "text": {
     "heading": {
       "landing-1": "Welcome to Chalk!",
-      "landing-2": "Organize students, teachers, admins, the whole circus.",
-      "landing-3": "Real-time exams, tests, quizzes, spelling bees, anything really.",
-      "landing-4": "Fully open-source. Zero paywalls.",
       "latest-updates": "Latest updates",
       "login-1": "Log in to your account",
       "signup-1": "Create a new user account",
       "dashboard-1": "Dashboard",
       "join-1": "Join a workspace",
-      "create-1": "Create a new workspace"
+      "user-create-1": "Create a new workspace",
+      "work-create-1": "Create a new exam",
+      "settings-1": "Workspace Settings"
     },
     "paragraph": {
       "landing-1": "This is the free and open-source alternative to traditional education tools.",
@@ -99,8 +112,18 @@
       "signup-1": "The access code is usually provided by the administrator or service provider.",
       "dashboard-1": "This is where you see all your classes and perform actions on them.",
       "join-1": "All workspaces have their own password. It's possible that there isn't a password set.",
-      "create-1": "The access code is usually provided by the administrator or service provider.",
+      "user-create-1": "The access code is usually provided by the administrator or service provider.",
       "policies": "By continuing, you accept our <a href='https://fortheinternet.notion.site/Privacy-Cookie-Policy-e818b63c958649c2b2403278d15085f1?pvs=4'>Privacy Policy</a>."
     }
+  },
+  "roles": {
+    "work_admin": "Head Teacher",
+    "work_teacher": "Teacher",
+    "work_helper": "Assistant",
+    "member": "Student"
+  },
+  "visibility": {
+    "private": "Private",
+    "public": "Public"
   }
 }

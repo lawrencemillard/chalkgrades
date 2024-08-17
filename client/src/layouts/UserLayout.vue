@@ -1,6 +1,12 @@
 <script setup>
   // Phosphor Icons
-  import { PhHouse, PhArrowRight, PhPlus, PhUser } from '@phosphor-icons/vue'
+  import {
+    PhHouse,
+    PhArrowRight,
+    PhArrowLeft,
+    PhPlus,
+    PhUser
+  } from '@phosphor-icons/vue'
 
   // UI elements
   import AsideButton from '@/components/AsideButton.vue'
@@ -17,37 +23,20 @@
     <div>
       <div>
         <AsideButton routePath="/dashboard">
-          <PhHouse
-            v-if="props.view == 'UserDashboard'"
-            weight="fill"
-            size="17px"
-          />
-          <PhHouse v-else weight="bold" size="17px" />
+          <PhHouse v-if="props.view == 'dashboard'" weight="fill" size="17px" />
+          <PhHouse v-else size="17px" />
 
-          <div :class="{ 'font-bold': props.view == 'UserDashboard' }">
+          <div :class="{ 'font-bold': props.view == 'dashboard' }">
             {{ $t('button.dashboard') }}
           </div>
         </AsideButton>
 
         <AsideButton routePath="/dashboard/join">
-          <PhArrowRight
-            v-if="props.view == 'UserJoin'"
-            weight="bold"
-            size="17px"
-          />
-          <PhArrowRight v-else weight="bold" size="17px" />
+          <PhArrowRight v-if="props.view == 'join'" size="17px" />
+          <PhArrowRight v-else size="17px" />
 
-          <div :class="{ 'font-bold': props.view == 'UserJoin' }">
+          <div :class="{ 'font-bold': props.view == 'join' }">
             {{ $t('button.join') }}
-          </div>
-        </AsideButton>
-
-        <AsideButton routePath="/dashboard/create">
-          <PhPlus v-if="props.view == 'UserCreate'" weight="bold" size="17px" />
-          <PhPlus v-else weight="bold" size="17px" />
-
-          <div :class="{ 'font-bold': props.view == 'UserCreate' }">
-            {{ $t('button.create') }}
           </div>
         </AsideButton>
       </div>
@@ -60,7 +49,7 @@
       <div class="divider my-8" v-if="username"></div>
       <div v-if="username">
         <AsideInfo>
-          <PhUser weight="bold" size="17px" />
+          <PhUser size="17px" />
           {{ username }}
         </AsideInfo>
         <Logout />

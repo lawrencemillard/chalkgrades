@@ -8,15 +8,12 @@
 
   const formComponent = ref(null)
 
-  // Layouts
-  import StartLayout from '@/layouts/StartLayout.vue'
-
   // UI elements
   import Button from '@/components/Button.vue'
   import Form from '@/components/Form.vue'
 
   onMounted(() => {
-    document.title = t('title.StartLogin')
+    document.title = t('title.login')
 
     if (localStorage.getItem('token')) {
       router.push('/dashboard')
@@ -51,7 +48,6 @@
 </script>
 
 <template>
-  <StartLayout view="StartLogin" />
   <main>
     <article>
       <h4>{{ $t('text.heading.login-1') }}</h4>
@@ -77,6 +73,7 @@
           :placeholder="$t('inputs.placeholders.username')"
           autocomplete="on"
           name="username"
+          type="text"
         />
 
         <p class="mb-2 text-base font-bold">

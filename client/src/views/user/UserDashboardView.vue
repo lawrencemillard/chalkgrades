@@ -1,5 +1,4 @@
 <script setup>
-  import { useUserStore } from '@/stores/userStore'
   import { computed, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useI18n } from 'vue-i18n'
@@ -7,33 +6,26 @@
   // Phosphor Icons
   import { PhGraduationCap } from '@phosphor-icons/vue'
 
-  // Layouts
-  import UserLayout from '@/layouts/UserLayout.vue'
-
   // UI elements
   import Button from '@/components/Button.vue'
   import Loading from '@/components/Loading.vue'
   import Divider from '@/components/Divider.vue'
 
-  const store = useUserStore()
   const { t } = useI18n()
   const router = useRouter()
 
   function navigateToWorkspace(work_admin_username, urn, path) {
-    router.push(`${work_admin_username}/${urn}/${path}`)
+    router.push(`/work/${work_admin_username}/${urn}/${path}`)
   }
 
-  onMounted(() => {
-    store.getData()
-    document.title = t('title.UserDashboard')
-  })
+  const props = defineProps(['loading', 'responseData'])
 
-  const responseData = computed(() => store.responseData)
-  const loading = computed(() => store.loading)
+  onMounted(() => {
+    document.title = t('title.dashboard')
+  })
 </script>
 
 <template>
-  <UserLayout view="UserDashboard" :username="responseData.username" />
   <main>
     <article>
       <h4>{{ t('text.heading.dashboard-1') }}</h4>
@@ -42,13 +34,11 @@
       </p>
     </article>
 
-    <Divider />
-
-    <Loading v-if="loading" />
+    <Loading v-if="props.loading" />
 
     <div
       class="mb-5 flex select-none flex-row justify-between"
-      v-for="workspace in responseData.workspaces"
+      v-for="workspace in props.responseData.workspaces"
       v-else
     >
       <div
@@ -61,7 +51,7 @@
           )
         "
       >
-        <PhGraduationCap size="20px" weight="bold" />
+        <PhGraduationCap size="20px" />
         <div>
           <p class="mb-0.5 text-small font-bold">
             {{ workspace.display_name }}

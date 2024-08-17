@@ -7,7 +7,7 @@
 
 <template>
   <div class="center">
-    <PhHourglass size="32px" weight="duotone" class="mb-5" />
+    <PhHourglass weight="duotone" size="32px" class="mb-5" />
     <h6>{{ t('loading') }}</h6>
     <p class="subtext">
       {{ t('loading-pls-wait') }}

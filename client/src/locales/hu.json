@@ -2,7 +2,7 @@
   "success": "A művelet sikeresen befejeződött.",
   "loading": "Betöltés, kérem várjon...",
   "loading-pls-wait": "Tudtad, hogy egyetlen villámcsapás elegendő energiát tartalmaz ahhoz, hogy 100 000 szelet kenyeret megpirítson?",
-  "copied": "másolva!",
+  "back": "Vissza",
   "languages": {
     "en_us": "English (US)",
     "hu": "Magyar"
@@ -28,12 +28,16 @@
     "already-started": "Már elkezdted ezt a dolgozatot!"
   },
   "title": {
-    "StartHome": "chalk - kezdőlap",
-    "StartLogin": "chalk - bejelentkezés",
-    "StartSignup": "chalk - felhasználó létrehozása",
-    "UserDashboard": "chalk - osztályok",
-    "UserJoin": "chalk - belépés egy osztályba",
-    "UserCreate": "chalk - osztály létrehozása"
+    "home": "chalk - kezdőlap",
+    "login": "chalk - bejelentkezés",
+    "signup": "chalk - felhasználó létrehozása",
+    "dashboard": "chalk - osztályok",
+    "join": "chalk - belépés egy osztályba",
+    "user-create": "chalk - osztály létrehozása",
+    "members": "chalk - tagok",
+    "exams": "chalk - dolgozatok",
+    "work-settings": "chalk - beállítások",
+    "work-create": "chalk - dolgozat létrehozása"
   },
   "button": {
     "home": "Kezdőlap",
@@ -46,14 +50,19 @@
     "changetheme": "Színtéma váltása",
     "submit": "Beküldés",
     "forgot-password": "Elfelejtett jelszó",
-    "dashboard": "Osztályok",
+    "dashboard": "Főoldal",
     "logout": "Kijelentkezés",
     "exams": "Dolgozatok",
     "members": "Tagok",
     "credits": "Impresszum",
     "join": "Belépés egy osztályba",
     "create": "Osztály létrehozása",
-    "settings": "Beállítások"
+    "settings": "Beállítások",
+    "create-exam": "Dolgozat létrehozása",
+    "leave": "Osztály elhagyása",
+    "remove-member": "Tag eltávoltítása",
+    "start-exam": "Dolgozat indítása",
+    "sessions": "Másolatok"
   },
   "inputs": {
     "text": {
@@ -64,7 +73,8 @@
       "access": "Hozzáférési kód",
       "work-admin-username": "Tanár neve",
       "urn": "Erőforrás",
-      "display-name": "Megjelenített név"
+      "display-name": "Megjelenített név",
+      "exam-name": "Dolgozat neve"
     },
     "placeholders": {
       "username": "Példa Tanuló",
@@ -75,22 +85,24 @@
       "access": "'home' vagy 'tanulo'",
       "access-class": "'class' vagy 'work'",
       "work-admin-username": "Példa Tanár",
-      "urn": "emelt-matematika",
-      "display-name": "12. emelt Matematika"
+      "urn": "12-emelt-matematika",
+      "display-name": "12. emelt Matematika",
+      "exam-name": "VI. fejezet. Emacs alapismeretek",
+      "work-new-value-1": "hetedik-siraly",
+      "work-new-value-2": "Sirály megfigyelő központ"
     }
   },
   "text": {
     "heading": {
       "landing-1": "Üdvözöl a Chalk!",
-      "landing-2": " Tanulók, tanárok, adminisztrátorok, az egész cirkusz rendszerezése.",
-      "landing-3": "Valós-idejű vizsgák, röpdogák, TZ-k, gyakorlófeladatok, akármi.",
-      "landing-4": "Teljesen nyílt forrású. Nulla fizetőfal.",
       "latest-updates": "Legújabb frissítések",
       "login-1": "Bejelentkezés",
       "signup-1": "Felhasználó létrehozása",
-      "dashboard-1": "Osztályok",
+      "dashboard-1": "Főoldal",
       "join-1": "Belépés egy osztályba",
-      "create-1": "Osztály létrehozása"
+      "user-create-1": "Osztály létrehozása",
+      "work-create-1": "Dolgozat létrehozása",
+      "settings-1": "Osztály beállítások"
     },
     "paragraph": {
       "landing-1": "A hagyományos oktatási eszközök szabad, nyílt forrású alternatívája.",
@@ -99,8 +111,18 @@
       "signup-1": "A hozzáférési kódot legtöbbször a rendszergazda vagy szolgáltató biztosítja.",
       "dashboard-1": "Itt láthatóak az osztályaink legfontosabb adatai. Műveletek végzése lehetséges.",
       "join-1": "Az osztályoknak saját jelszavaik vannak. Lehetséges, hogy nincs beállítva jelszó.",
-      "create-1": "A hozzáférési kódot legtöbbször a rendszergazda vagy szolgáltató biztosítja.",
+      "user-create-1": "A hozzáférési kódot legtöbbször a rendszergazda vagy szolgáltató biztosítja.",
       "policies": "A folytatással beleegyezel az <a href='https://fortheinternet.notion.site/Privacy-Cookie-Policy-e818b63c958649c2b2403278d15085f1?pvs=4'>Adatvédelmi nyilatkozatba</a>."
     }
+  },
+  "roles": {
+    "work_admin": "Főoktató",
+    "work_teacher": "Oktató",
+    "work_helper": "Tanársegéd",
+    "member": "Tanuló"
+  },
+  "visibility": {
+    "private": "Privát",
+    "public": "Nyílvános"
   }
 }

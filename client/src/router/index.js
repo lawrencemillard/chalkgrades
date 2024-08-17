@@ -1,19 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import UserLayer from '@/layers/UserLayer.vue'
+import StartLayer from '@/layers/StartLayer.vue'
+import WorkLayer from '@/layers/WorkLayer.vue'
+import ManageLayer from '@/layers/ManageLayer.vue'
+
 import StartHomeView from '@/views/start/StartHomeView.vue'
 import StartLoginView from '@/views/start/StartLoginView.vue'
 import StartSignupView from '@/views/start/StartSignupView.vue'
+
 import UserDashboardView from '@/views/user/UserDashboardView.vue'
 import UserCreateView from '@/views/user/UserCreateView.vue'
 import UserJoinView from '@/views/user/UserJoinView.vue'
+
 import WorkMembersView from '@/views/work/WorkMembersView.vue'
 import WorkExamsView from '@/views/work/WorkExamsView.vue'
 import WorkSettingsView from '@/views/work/WorkSettingsView.vue'
 import WorkCreateView from '@/views/work/WorkCreateView.vue'
+
 import ManageStartView from '@/views/manage/ManageStartView.vue'
 import ManageSessionsView from '@/views/manage/ManageSessionsView.vue'
 import ManageQuestionsView from '@/views/manage/ManageQuestionsView.vue'
 import ManageSettingsView from '@/views/manage/ManageSettingsView.vue'
+
 import ExamWriteView from '@/views/exam/ExamWriteView.vue'
 import ExamAccessView from '@/views/exam/ExamAccessView.vue'
 
@@ -22,73 +31,103 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: StartHomeView
-    },
-    {
-      path: '/login',
-      component: StartLoginView
-    },
-    {
-      path: '/signup',
-      component: StartSignupView
+      component: StartLayer,
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: StartHomeView
+        },
+        {
+          path: 'login',
+          name: 'login',
+          component: StartLoginView
+        },
+        {
+          path: 'signup',
+          name: 'signup',
+          component: StartSignupView
+        }
+      ]
     },
     {
       path: '/dashboard',
-      component: UserDashboardView
+      component: UserLayer,
+      children: [
+        {
+          path: '',
+          name: 'dashboard',
+          component: UserDashboardView
+        },
+        {
+          path: 'join',
+          name: 'join',
+          component: UserJoinView
+        },
+        {
+          path: 'create',
+          name: 'user-create',
+          component: UserCreateView
+        }
+      ]
     },
     {
-      path: '/dashboard/join',
-      component: UserJoinView
+      path: '/work/:work_admin_username/:urn',
+      component: WorkLayer,
+      children: [
+        {
+          path: 'members',
+          name: 'members',
+          component: WorkMembersView
+        },
+        {
+          path: 'exams',
+          name: 'exams',
+          component: WorkExamsView
+        },
+        {
+          path: 'settings',
+          name: 'work-settings',
+          component: WorkSettingsView
+        },
+        {
+          path: 'create',
+          name: 'work-create',
+          component: WorkCreateView
+        }
+      ]
     },
     {
-      path: '/dashboard/create',
-      component: UserCreateView
-    },
-    {
-      path: '/:work_admin_username/:urn/members',
-      component: WorkMembersView
-    },
-    {
-      path: '/:work_admin_username/:urn/exams',
-      component: WorkExamsView
-    },
-    {
-      path: '/:work_admin_username/:urn/settings',
-      component: WorkSettingsView
-    },
-    {
-      path: '/:work_admin_username/:urn/create',
-      component: WorkCreateView
-    },
-    {
-      path: '/:work_admin_username/:urn/:id/start',
-      component: ManageStartView
-    },
-    {
-      path: '/:work_admin_username/:urn/:id/sessions',
-      component: ManageSessionsView
-    },
-    {
-      path: '/:work_admin_username/:urn/:id/questions',
-      component: ManageQuestionsView
-    },
-    {
-      path: '/:work_admin_username/:urn/:id/settings',
-      component: ManageSettingsView
-    },
-    {
-      path: '/:work_admin_username/:urn/:id/write',
-      component: ExamWriteView
-    },
-    {
-      path: '/:work_admin_username/:urn/:id/access',
-      component: ExamAccessView
+      path: '/manage/:work_admin_username/:urn/:exam_id',
+      component: ManageLayer,
+      children: [
+        {
+          path: 'questions',
+          name: 'questions',
+          component: ManageQuestionsView
+        },
+        {
+          path: 'sessions',
+          name: 'sessions',
+          component: ManageSessionsView
+        },
+        {
+          path: 'settings',
+          name: 'exam-settings',
+          component: ManageSettingsView
+        },
+        {
+          path: 'start',
+          name: 'start',
+          component: ManageStartView
+        }
+      ]
     }
   ]
 })
 
 router.beforeEach((to) => {
-  document.title = to.meta?.title ?? 'chalk -> . . .'
+  document.title = to.meta?.title ?? 'chalk - ...'
 })
 
 export default router

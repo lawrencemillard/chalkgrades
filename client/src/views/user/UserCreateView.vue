@@ -1,25 +1,21 @@
 <script setup>
-  import { useUserStore } from '@/stores/userStore'
   import { ref, computed, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useI18n } from 'vue-i18n'
 
-  const store = useUserStore()
   const router = useRouter()
   const { t } = useI18n()
 
   const formComponent = ref(null)
 
-  // Layouts
-  import UserLayout from '@/layouts/UserLayout.vue'
+  const props = defineProps(['loading', 'responseData'])
 
   // UI elements
   import Button from '@/components/Button.vue'
   import Form from '@/components/Form.vue'
 
   onMounted(() => {
-    store.getData()
-    document.title = t('title.UserDashboard')
+    document.title = t('title.user-create')
   })
 
   const requestData = ref({
@@ -41,9 +37,9 @@
     error.value = data.error || ''
     success.value = !error.value
 
-    if (success.value) {
+    if (success) {
       router.push(
-        `/${requestData.value.work_admin_username}/${requestData.value.urn}/members`
+        `/work/${props.responseData.username}/${requestData.value.urn}/members`
       )
     }
   }
@@ -51,17 +47,14 @@
   function submitForm() {
     formComponent.value.submitForm()
   }
-
-  const responseData = computed(() => store.responseData)
 </script>
 
 <template>
-  <UserLayout view="UserCreate" :username="responseData.username" />
   <main>
     <article>
-      <h4>{{ $t('text.heading.create-1') }}</h4>
+      <h4>{{ $t('text.heading.user-create-1') }}</h4>
       <p class="subtext">
-        {{ $t('text.paragraph.create-1') }}
+        {{ $t('text.paragraph.user-create-1') }}
       </p>
     </article>
 
@@ -84,6 +77,7 @@
               :placeholder="$t('inputs.placeholders.display-name')"
               autocomplete="on"
               name="display-name"
+              type="text"
             />
           </div>
           <div class="w-full xl:w-1/2">
@@ -96,6 +90,7 @@
               :placeholder="$t('inputs.placeholders.urn')"
               autocomplete="on"
               name="urn"
+              type="text"
             />
           </div>
         </div>
@@ -120,6 +115,7 @@
           :placeholder="$t('inputs.placeholders.access')"
           autocomplete="on"
           name="access"
+          type="text"
         />
       </form>
       <!-- <form> should end before the error display and the button-row. -->

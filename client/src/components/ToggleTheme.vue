@@ -8,10 +8,10 @@
   function toggleTheme() {
     console.log('Toggling theme')
 
-    localStorage.theme = localStorage.theme === 'light' ? 'dark' : 'light'
+    localStorage.theme = localStorage.theme == 'light' ? 'dark' : 'light'
 
     if (
-      localStorage.theme === 'dark' ||
+      localStorage.theme == 'dark' ||
       (!('theme' in localStorage) &&
         window.matchMedia('(prefers-color-scheme: dark)').matches)
     ) {
@@ -24,7 +24,7 @@
 
 <template>
   <AsideButton @click="toggleTheme()">
-    <PhPalette weight="bold" size="17px" />
+    <PhPalette size="17px" />
     {{ $t('button.changetheme') }}
   </AsideButton>
 </template>
