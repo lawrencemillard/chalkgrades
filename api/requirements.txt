@@ -1,6 +1,6 @@
-Flask[async]==3.0.0
+Flask[async]
 supabase
-python-dotenv==1.0.0
+python-dotenv
 ably
 flask-cors
 flask-limiter
