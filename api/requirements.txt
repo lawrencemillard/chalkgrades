@@ -1,6 +1,6 @@
-Flask[async]
-supabase
-python-dotenv
-ably
-flask-cors
-flask-limiter
+Flask[async]==3.0.3
+supabase==2.7.1
+python-dotenv==1.0.0
+ably==2.0.6
+flask-cors==4.0.1
+flask-limiter==3.7.0
