@@ -10,7 +10,7 @@
 
   // UI elements
   import Button from '@/components/Button.vue'
-  import Form from '@/components/Form.vue'
+  import FormHandler from '@/components/FormHandler.vue'
 
   onMounted(() => {
     document.title = t('title.signup')
@@ -58,9 +58,9 @@
       </p>
     </article>
 
-    <Form
-      :requestURL
-      :requestData
+    <FormHandler
+      :requestURL="requestURL"
+      :requestData="requestData"
       ref="formComponent"
       @submitted="handleResponse"
     >
@@ -119,6 +119,6 @@
           {{ $t('button.submit') }}
         </Button>
       </div>
-    </Form>
+    </FormHandler>
   </main>
 </template>

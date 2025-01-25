@@ -26,103 +26,38 @@ import ManageSettingsView from '@/views/manage/ManageSettingsView.vue'
 import ExamWriteView from '@/views/exam/ExamWriteView.vue'
 import ExamAccessView from '@/views/exam/ExamAccessView.vue'
 
+const createRoute = (path, name, component, children = []) => ({
+  path,
+  name,
+  component,
+  children
+})
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/',
-      component: StartLayer,
-      children: [
-        {
-          path: '',
-          name: 'home',
-          component: StartHomeView
-        },
-        {
-          path: 'login',
-          name: 'login',
-          component: StartLoginView
-        },
-        {
-          path: 'signup',
-          name: 'signup',
-          component: StartSignupView
-        }
-      ]
-    },
-    {
-      path: '/dashboard',
-      component: UserLayer,
-      children: [
-        {
-          path: '',
-          name: 'dashboard',
-          component: UserDashboardView
-        },
-        {
-          path: 'join',
-          name: 'join',
-          component: UserJoinView
-        },
-        {
-          path: 'create',
-          name: 'user-create',
-          component: UserCreateView
-        }
-      ]
-    },
-    {
-      path: '/work/:work_admin_username/:urn',
-      component: WorkLayer,
-      children: [
-        {
-          path: 'members',
-          name: 'members',
-          component: WorkMembersView
-        },
-        {
-          path: 'exams',
-          name: 'exams',
-          component: WorkExamsView
-        },
-        {
-          path: 'settings',
-          name: 'work-settings',
-          component: WorkSettingsView
-        },
-        {
-          path: 'create',
-          name: 'work-create',
-          component: WorkCreateView
-        }
-      ]
-    },
-    {
-      path: '/manage/:work_admin_username/:urn/:exam_id',
-      component: ManageLayer,
-      children: [
-        {
-          path: 'questions',
-          name: 'questions',
-          component: ManageQuestionsView
-        },
-        {
-          path: 'sessions',
-          name: 'sessions',
-          component: ManageSessionsView
-        },
-        {
-          path: 'settings',
-          name: 'exam-settings',
-          component: ManageSettingsView
-        },
-        {
-          path: 'start',
-          name: 'start',
-          component: ManageStartView
-        }
-      ]
-    }
+    createRoute('/', StartLayer, null, [
+      createRoute('', 'home', StartHomeView),
+      createRoute('login', 'login', StartLoginView),
+      createRoute('signup', 'signup', StartSignupView)
+    ]),
+    createRoute('/dashboard', UserLayer, null, [
+      createRoute('', 'dashboard', UserDashboardView),
+      createRoute('join', 'join', UserJoinView),
+      createRoute('create', 'user-create', UserCreateView)
+    ]),
+    createRoute('/work/:work_admin_username/:urn', WorkLayer, null, [
+      createRoute('members', 'members', WorkMembersView),
+      createRoute('exams', 'exams', WorkExamsView),
+      createRoute('settings', 'work-settings', WorkSettingsView),
+      createRoute('create', 'work-create', WorkCreateView)
+    ]),
+    createRoute('/manage/:work_admin_username/:urn/:exam_id', ManageLayer, null, [
+      createRoute('questions', 'questions', ManageQuestionsView),
+      createRoute('sessions', 'sessions', ManageSessionsView),
+      createRoute('settings', 'exam-settings', ManageSettingsView),
+      createRoute('start', 'start', ManageStartView)
+    ])
   ]
 })
 

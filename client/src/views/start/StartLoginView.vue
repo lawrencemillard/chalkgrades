@@ -10,7 +10,7 @@
 
   // UI elements
   import Button from '@/components/Button.vue'
-  import Form from '@/components/Form.vue'
+  import FormHandler from '@/components/FormHandler.vue'
 
   onMounted(() => {
     document.title = t('title.login')
@@ -56,9 +56,9 @@
       </p>
     </article>
 
-    <Form
-      :requestURL
-      :requestData
+    <FormHandler
+      :requestURL="requestURL"
+      :requestData="requestData"
       ref="formComponent"
       @submitted="handleResponse"
     >
@@ -103,7 +103,7 @@
           {{ $t('button.forgot-password') }}
         </Button>
       </div>
-    </Form>
+    </FormHandler>
 
     <article>
       <p class="subtext" v-html="$t('text.paragraph.policies')"></p>
