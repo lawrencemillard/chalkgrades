@@ -5,7 +5,7 @@
 
   // UI elements
   import Button from '@/components/Button.vue'
-  import FormHandler from '@/components/FormHandler.vue'
+  import Form from '@/components/Form.vue'
 
   const router = useRouter()
   const { t } = useI18n()
@@ -57,7 +57,7 @@
       </p>
     </article>
 
-    <FormHandler
+    <Form
       :requestURL="requestURL"
       :requestData="requestData"
       ref="formComponent"
@@ -115,6 +115,6 @@
           {{ $t('button.submit') }}
         </Button>
       </div>
-    </FormHandler>
+    </Form>
   </main>
 </template>
