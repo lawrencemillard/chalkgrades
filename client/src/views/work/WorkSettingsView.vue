@@ -59,14 +59,14 @@
 
   function submitForm() {
     if (display.value) {
-      requestData.value.value = display
+      requestData.value.value = display.value
       requestData.value.action = 'display'
 
       formComponent.value.submitForm()
     }
 
     if (urn.value) {
-      requestData.value.value = urn
+      requestData.value.value = urn.value
       requestData.value.action = 'urn'
 
       formComponent.value.submitForm()
@@ -89,8 +89,8 @@
     <Loading v-if="props.loading" />
 
     <Form
-      :requestURL
-      :requestData
+      :requestURL="requestURL"
+      :requestData="requestData"
       ref="formComponent"
       @submitted="handleResponse"
       v-else

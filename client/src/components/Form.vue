@@ -1,42 +1,44 @@
 <script setup>
-  import { ref } from 'vue'
-  import axios from 'axios'
+import { ref } from 'vue'
+import axios from 'axios'
 
-  const props = defineProps(['requestURL', 'requestData'])
-  const emit = defineEmits(['submitted'])
-  const requestLocation = import.meta.env.VITE_REQUEST_LOCATION
-
-  defineExpose({ submitForm })
-
-  const Form = ref(null)
-
-  async function submitForm() {
-    try {
-      const response = await axios.post(
-        requestLocation + props.requestURL,
-        props.requestData
-      )
-
-      emit('submitted', response.data)
-    } catch (error) {
-      if (error.response) {
-        console.table({
-          'Error code': error.response.data.error,
-          'Error message': error.response.data.message
-        })
-
-        emit('submitted', error.response.data)
-      } else {
-        console.log('Something happened. ' + error)
-      }
-    }
+const props = defineProps({
+  requestURL: {
+    type: String,
+    required: true
+  },
+  requestData: {
+    type: Object,
+    required: true
   }
+})
+
+const emit = defineEmits(['submitted'])
+const requestLocation = import.meta.env.VITE_REQUEST_LOCATION
+
+defineExpose({ submitForm })
+
+const error = ref('')
+const success = ref(false)
+
+async function submitForm() {
+  try {
+    const response = await axios.post(
+      requestLocation + props.requestURL,
+      props.requestData
+    )
+    emit('submitted', response.data)
+  } catch (err) {
+    error.value = err.response?.data?.error || 'An error occurred'
+    emit('submitted', { error: error.value })
+  }
+}
 </script>
 
 <template>
-  <div class="FormInputs-wrapper">
+  <form @submit.prevent="submitForm">
     <slot></slot>
-  </div>
+  </form>
 </template>
 
 <style scoped>
