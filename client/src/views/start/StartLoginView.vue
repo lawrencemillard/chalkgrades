@@ -57,8 +57,8 @@
     </article>
 
     <Form
-      :requestURL
-      :requestData
+      :requestURL="requestURL"
+      :requestData="requestData"
       ref="formComponent"
       @submitted="handleResponse"
     >

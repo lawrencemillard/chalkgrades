@@ -20,16 +20,13 @@
 
   const requestData = ref({
     token: localStorage.getItem('token'),
-    password: ''
-  })
-
-  const requestURLData = ref({
+    password: '',
     urn: '',
     work_admin_username: ''
   })
 
   const requestURL = computed(() => {
-    return `/api/work/${requestURLData.value.work_admin_username}/${requestURLData.value.urn}/join.json`
+    return `/api/work/${requestData.value.work_admin_username}/${requestData.value.urn}/join.json`
   })
 
   const error = ref('')
@@ -41,7 +38,7 @@
 
     if (success.value) {
       router.push(
-        `/work/${requestURLData.value.work_admin_username}/${requestURLData.value.urn}/members`
+        `/work/${requestData.value.work_admin_username}/${requestData.value.urn}/members`
       )
     }
   }
@@ -61,8 +58,8 @@
     </article>
 
     <Form
-      :requestURL
-      :requestData
+      :requestURL="requestURL"
+      :requestData="requestData"
       ref="formComponent"
       @submitted="handleResponse"
     >
@@ -75,7 +72,7 @@
             </p>
 
             <input
-              v-model="requestURLData.work_admin_username"
+              v-model="requestData.work_admin_username"
               :placeholder="$t('inputs.placeholders.work-admin-username')"
               autocomplete="on"
               name="work_admin_username"
@@ -88,7 +85,7 @@
             </p>
 
             <input
-              v-model="requestURLData.urn"
+              v-model="requestData.urn"
               :placeholder="$t('inputs.placeholders.urn')"
               autocomplete="on"
               name="urn"

@@ -69,8 +69,8 @@
     <Loading v-if="props.loading" />
 
     <Form
-      :requestURL
-      :requestData
+      :requestURL="requestURL"
+      :requestData="requestData"
       ref="formComponent"
       @submitted="handleResponse"
       v-else

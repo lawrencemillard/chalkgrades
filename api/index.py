@@ -111,6 +111,14 @@ def workauth(token, work_admin_username, urn, required_role):
         'work_auth': work_auth
     }
 
+# Common Error Handling Function
+
+def handle_error(conditions):
+    for condition in conditions:
+        if condition[0]:
+            return jsonify({'error': condition[1], 'message': condition[2]}), condition[3]
+    return None
+
 # Endpoints
 
 @app.route('/api/logins/logins.json', methods=['POST'])
@@ -128,8 +136,9 @@ def handle_logins():
     response = supabase.table('users_data').select('auth, token').eq('username', username).execute().data
 
     conditions = [(not response, 'user-not-exist', 'That user does not exist.', '400')]
-    for condition in conditions:
-        if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]}), condition[3]
+    error_response = handle_error(conditions)
+    if error_response:
+        return error_response
 
     auth = response[0]['auth'] if response else None
     token = response[0]['token'] if response else None
@@ -138,8 +147,9 @@ def handle_logins():
     sha256_hash = hashlib.sha256(peppered_password.encode()).hexdigest()
 
     conditions = [(sha256_hash != auth, 'bad-password', 'The password provided is incorrect.', '400')]
-    for condition in conditions:
-        if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]}), condition[3]
+    error_response = handle_error(conditions)
+    if error_response:
+        return error_response
 
     return jsonify({
         'token': token
@@ -172,8 +182,9 @@ def handle_signups():
         (not re.match(r'^[A-Za-z\d_ -ÁáÍíŰűÉéŐőÚúÓóÜüÖö]{3,45}$', username), 'invalid-username', 'The username you chose does not meet standard requirements.', '400'),
     ]
 
-    for condition in conditions:
-        if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]}), condition[3]
+    error_response = handle_error(conditions)
+    if error_response:
+        return error_response
         
     peppered_password = password_pepper_user + password
     sha256_hash = hashlib.sha256(peppered_password.encode()).hexdigest()
@@ -273,8 +284,9 @@ def handle_work_create():
         (not re.match(r'^[A-Za-z\d_-]{3,20}$', urn), 'invalid-work-resource', 'That workspace resource does not meet standard requirements.', '400'),
     ]
 
-    for condition in conditions:
-        if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]}), condition[3]
+    error_response = handle_error(conditions)
+    if error_response:
+        return error_response
         
     supabase.table("work_data").insert({"work_admin_id": user_id, "auth": sha256_hash, "urn": urn, "display": display}).execute()
 
@@ -319,8 +331,9 @@ async def handle_work_join(work_admin_username, urn):
         (sha256_hash != work_auth, 'bad-password', 'Your password is incorrect.', '400')
     ]
 
-    for condition in conditions:
-        if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]}), condition[3]
+    error_response = handle_error(conditions)
+    if error_response:
+        return error_response
      
     existing_member = supabase.table('members_data').select('member_id').eq('member_id', user_id).eq('work_id', work_id).execute().data
 
@@ -328,8 +341,9 @@ async def handle_work_join(work_admin_username, urn):
         (existing_member, 'already-member', 'You are already a member of that workspace!', '400')
     ]
     
-    for condition in conditions:
-        if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]}), condition[3]
+    error_response = handle_error(conditions)
+    if error_response:
+        return error_response
 
     # Realtime Endpoint Logic
     existing_row = supabase.table('realtime_pages').select('*').eq('work_id', work_id).execute().data
@@ -529,8 +543,9 @@ async def handle_work_settings(work_admin_username, urn):
         
     if action == "display": # work_display
         conditions = [(user_role != "work_admin", 'bad-permissions', 'You have incorrect permissions.')]
-        for condition in conditions:
-            if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]})
+        error_response = handle_error(conditions)
+        if error_response:
+            return error_response
         
         supabase.table('work_data').update({'display': value}).eq('work_id', work_id).execute()
 
@@ -551,8 +566,9 @@ async def handle_work_settings(work_admin_username, urn):
             (user_role != "work_admin", 'bad-permissions', 'You have incorrect permissions.', '400')
         ]
 
-        for condition in conditions:
-            if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]})
+        error_response = handle_error(conditions)
+        if error_response:
+            return error_response
 
         supabase.table('work_data').update({'urn': value}).eq('work_id', work_id).execute()
         
@@ -565,8 +581,9 @@ async def handle_work_settings(work_admin_username, urn):
     
     elif action == "leave": # member_leave
         conditions = [(user_role != "member", 'bad-permissions', 'You have incorrect permissions.', '400')]
-        for condition in conditions:
-            if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]})
+        error_response = handle_error(conditions)
+        if error_response:
+            return error_response
         
         supabase.table('members_data').delete().eq('work_id', work_id).eq('member_id', user_id).execute()
 
@@ -585,8 +602,9 @@ async def handle_work_settings(work_admin_username, urn):
         exams_data = supabase.table('exams_data').select('exam_id').eq('work_id', work_id).execute().data
 
         conditions = [(user_role != "work_admin", 'bad-permissions', 'You have incorrect permissions.', '400')]
-        for condition in conditions:
-            if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]})
+        error_response = handle_error(conditions)
+        if error_response:
+            return error_response
 
         for exam in exams_data:
             exam_id = exam.get('exam_id')
@@ -678,8 +696,9 @@ def handle_exam_settings(work_admin_username, urn):
         (session_id, 'has-active-sessions', 'This exam has one or more active sessions, so its settings cannot be modified.', '400')
     ]
 
-    for condition in conditions: 
-        if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]}), condition[3]
+    error_response = handle_error(conditions)
+    if error_response:
+        return error_response
 
     # Settings
 
@@ -740,8 +759,9 @@ def handle_exam_build(work_admin_username, urn):
         (session_id, 'has-any-sessions', 'This exam has one or more sessions, so its questions cannot be modified.', '400')
     ]
 
-    for condition in conditions:
-        if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]}), condition[3]
+    error_response = handle_error(conditions)
+    if error_response:
+        return error_response
     
     # Deletes existing data!
     supabase.table('options_data').delete().eq('exam_id', exam_id).execute()
@@ -769,8 +789,9 @@ def handle_exam_build(work_admin_username, urn):
                     (option_order in orders, 'syntax-fatal-orderdupe', 'One or more of the orders are duplicated. This error should not occur naturally using the website, please open a GitHub issue.', '400')
                 ]
 
-                for condition in conditions:
-                    if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]}), condition[3]
+                error_response = handle_error(conditions)
+                if error_response:
+                    return error_response
 
                 orders.append(option_order)
             
@@ -820,8 +841,9 @@ def handle_exam_home(work_admin_username, urn):
         (user_role != "work_admin" and exam_visibility != "public", 'not-exists', 'That resource does not exist.', 404)
     ]
 
-    for condition in conditions:
-        if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]}), condition[3]
+    error_response = handle_error(conditions)
+    if error_response:
+        return error_response
 
     questions_data = supabase.table('questions_data').select('question_order', 'content', 'description', 'type', 'question_id').eq('exam_id', exam_id).execute().data
 
@@ -921,8 +943,9 @@ def handle_exam_start(work_admin_username, urn):
         (session_id, 'already-started', 'You already started this exam!', '400')
     ]
 
-    for condition in conditions:
-        if condition[0]: return jsonify({'error': condition[1], 'message': condition[2]}), condition[3]
+    error_response = handle_error(conditions)
+    if error_response:
+        return error_response
 
     supabase.table('sessions_data').insert({'user_id': user_id, 'exam_id': exam_id, 'status': "active"}).execute() # inserts the session as active
     questions_data = supabase.table('questions_data').select('question_order', 'content', 'description', 'type', 'question_id').eq('exam_id', exam_id).execute().data
